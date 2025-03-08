@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - Platinamo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f5f6fa;
+        }
+
+        header {
+            background-color: #2d3436;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        header img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .order-summary {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: #2d3436;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f1f2f6;
+        }
+
+        .user-info, .cart-items {
+            margin-bottom: 20px;
+        }
+
+        .info-row {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        .info-label {
+            font-weight: bold;
+            width: 150px;
+            color: #2d3436;
+        }
+
+        .info-value {
+            flex: 1;
+            color: #636e72;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f2f6;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-name {
+            font-weight: bold;
+            color: #2d3436;
+            margin-bottom: 5px;
+        }
+
+        .item-price {
+            color: #4CAF50;
+        }
+
+        .item-quantity {
+            color: #636e72;
+            font-size: 0.9rem;
+        }
+
+        .total-section {
+            text-align: right;
+            padding-top: 15px;
+            border-top: 2px solid #f1f2f6;
+        }
+
+        .total-amount {
+            font-size: 1.5rem;
+            color: #2d3436;
+            font-weight: bold;
+        }
+
+        .back-btn {
+            display: inline-block;
+            background-color: #2d3436;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background-color: #1e2628;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .info-row {
+                flex-direction: column;
+            }
+
+            .info-label {
+                width: 100%;
+                margin-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="assets/logo.png" alt="Platinam Logo">
+        <div class="title-container">
+            <h1>Platinamo</h1>
+            <p style="color: #dfe6e9; font-size: 1.2rem;">Your Trusted Gaming Shop</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <a href="javascript:history.back()" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Product</a>
+        
+        <div class="order-summary">
+            <h2 class="section-title">Order Summary</h2>
+            
+            <div class="user-info" id="user-info">
+                <!-- User information will be dynamically added here -->
+            </div>
+
+            <div class="cart-items" id="cart-items">
+                <h3 class="section-title">Selected Items</h3>
+                <!-- Cart items will be dynamically added here -->
+            </div>
+
+            <div class="total-section">
+                <div class="total-amount" id="total-amount">Total: ৳ 0.00</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const orderData = JSON.parse(decodeURIComponent(urlParams.get('orderData')));
+
+            // Display user information
+            const userInfoContainer = document.getElementById('user-info');
+            Object.entries(orderData.userInfo).forEach(([key, value]) => {
+                const label = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                userInfoContainer.innerHTML += `
+                    <div class="info-row">
+                        <div class="info-label">${label}:</div>
+                        <div class="info-value">${value}</div>
+                    </div>
+                `;
+            });
+
+            // Display cart items
+            const cartItemsContainer = document.getElementById('cart-items');
+            let total = 0;
+
+            orderData.cart.forEach(item => {
+                const price = parseFloat(item.item_price.replace('৳', '').replace(',', ''));
+                const itemTotal = price * item.quantity;
+                total += itemTotal;
+
+                cartItemsContainer.innerHTML += `
+                    <div class="cart-item">
+                        <div class="item-details">
+                            <div class="item-name">${item.item_name}</div>
+                            <div class="item-price">৳ ${itemTotal.toFixed(2)}</div>
+                            <div class="item-quantity">Quantity: ${item.quantity}</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // Update total amount
+            document.getElementById('total-amount').textContent = `Total: ৳ ${total.toFixed(2)}`;
+        });
+    </script>
+</body>
+</html>

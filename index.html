@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Platinamo - Game Shop</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        
+        header {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #2d3436;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        header img {
+            height: 80px;
+            margin-right: 20px;
+        }
+        
+        header .title-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .games-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .game-card {
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .game-image {
+            height: 180px;
+            overflow: hidden;
+            position: relative;
+            background-color: #f0f0f0;
+        }
+        
+        .game-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .game-card:hover .game-image img {
+            transform: scale(1.05);
+        }
+        
+        .game-info {
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .game-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .buy-btn {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        
+        .buy-btn:hover {
+            background-color: #45a049;
+        }
+        
+        @media (max-width: 768px) {
+            .games-container {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .games-container {
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+            }
+            
+            header h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="assets/logo.png" alt="Platinam Logo">
+        <div class="title-container">
+            <h1>Platinamo</h1>
+            <p style="color: #dfe6e9; font-size: 1.2rem;">Your Trusted Gaming Shop</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="games-container" id="games-container">
+            <!-- Game cards will be inserted here by JavaScript -->
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fetch the products data from products.json
+            fetch('products.json')
+                .then(response => response.json())
+                .then(data => {
+                    displayGames(data);
+                })
+                .catch(error => {
+                    console.error('Error fetching the products data:', error);
+                });
+                
+            // Function to display games in cards
+            function displayGames(games) {
+                const gamesContainer = document.getElementById('games-container');
+                
+                // Clear the container
+                gamesContainer.innerHTML = '';
+                
+                // For each game in the products.json
+                games.forEach(game => {
+                    // Create a slug for the image filename from the title
+                    const gameSlug = game.title
+                        .replace(/[\(\)]/g, '') // Remove parentheses
+                        .replace(/: Bang Bang/g, '') // Remove subtitle for Mobile Legends
+                        .replace(/[^\w\s-]/g, '') // Remove special characters except hyphen
+                        .replace(/\s+/g, '_') // Replace spaces with underscores
+                        .replace(/-+/g, '_') // Replace hyphens with underscores
+                        .replace(/^_+|_+$/g, ''); // Remove leading/trailing underscores
+                        
+                    // Create the game card HTML
+                    const gameCard = document.createElement('div');
+                    gameCard.className = 'game-card';
+                    
+                    gameCard.innerHTML = `
+                        <div class="game-image">
+                            <img src="assets/games/${gameSlug}.jpg" 
+                                 alt="${game.title}" 
+                                 onerror="this.src='assets/games/default-game.jpg'">
+                        </div>
+                        <div class="game-info">
+                            <h2 class="game-title">${game.title}</h2>
+                            <a href="products.html?product=${encodeURIComponent(game.title)}" class="buy-btn">Buy Now</a>
+                        </div>
+                    `;
+                    
+                    // Add the card to the container
+                    gamesContainer.appendChild(gameCard);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
