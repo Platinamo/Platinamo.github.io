@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - Platinamo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f5f6fa;
+        }
+
+        header {
+            background-color: #2d3436;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .cart-icon-container {
+            position: relative;
+            margin-right: 20px;
+        }
+
+        .cart-icon {
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        header img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .product-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .product-image {
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
+            margin: 0 auto 20px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-title {
+            font-size: 2rem;
+            color: #2d3436;
+            margin-bottom: 20px;
+        }
+
+        .input-fields {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .input-fields h2 {
+            margin-bottom: 15px;
+            color: #2d3436;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #2d3436;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .items-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .item-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .item-name {
+            font-size: 1.1rem;
+            color: #2d3436;
+            margin-bottom: 10px;
+        }
+
+        .item-price {
+            font-size: 1.2rem;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .quantity-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .quantity-btn {
+            background-color: #2d3436;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantity-btn:hover {
+            background-color: #1e2628;
+        }
+
+        .quantity-display {
+            font-size: 1.1rem;
+            color: #2d3436;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .back-btn {
+            display: inline-block;
+            background-color: #2d3436;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background-color: #1e2628;
+        }
+
+        .cart-panel {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            min-width: 300px;
+            max-width: 400px;
+            z-index: 1000;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .cart-title {
+            font-size: 1.2rem;
+            color: #2d3436;
+            font-weight: bold;
+        }
+
+        .cart-items {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item-info {
+            flex-grow: 1;
+        }
+
+        .cart-item-name {
+            font-size: 1rem;
+            color: #2d3436;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-price {
+            font-size: 0.9rem;
+            color: #4CAF50;
+        }
+
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: 15px;
+        }
+
+        .cart-quantity-btn {
+            background-color: #2d3436;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cart-quantity-btn:hover {
+            background-color: #1e2628;
+        }
+
+        .cart-quantity-display {
+            font-size: 1rem;
+            color: #2d3436;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .cart-total {
+            font-size: 1.2rem;
+            color: #2d3436;
+            font-weight: bold;
+            text-align: right;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #ddd;
+        }
+
+        .buy-now-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background-color 0.3s ease;
+        }
+
+        .buy-now-btn:hover:not(:disabled) {
+            background-color: #45a049;
+        }
+
+        .buy-now-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 768px) {
+            .items-list {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+
+            .product-image {
+                height: 250px;
+            }
+
+            .product-title {
+                font-size: 1.8rem;
+            }
+
+            .cart-panel {
+                left: 20px;
+                right: 20px;
+                max-width: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .items-list {
+                grid-template-columns: 1fr;
+            }
+
+            .product-image {
+                height: 200px;
+            }
+
+            header h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="assets/logo.png" alt="Platinam Logo">
+            <div class="title-container">
+                <h1>Platinamo</h1>
+                <p style="color: #dfe6e9; font-size: 1.2rem;">Your Trusted Gaming Shop</p>
+            </div>
+        </div>
+        <a href="payment.html" class="cart-icon-container">
+            <i class="fas fa-shopping-cart cart-icon"></i>
+            <span class="cart-count" id="cart-count">0</span>
+        </a>
+    </header>
+
+    <div class="container">
+        <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Games</a>
+        
+        <div class="product-header">
+            <div class="product-image">
+                <img id="product-img" src="" alt="Product Image">
+            </div>
+            <h1 class="product-title" id="product-title"></h1>
+        </div>
+
+        <div class="input-fields" id="input-fields">
+            <h2>Required Information</h2>
+            <!-- Input fields will be dynamically added here -->
+        </div>
+
+        <div class="items-list" id="items-list">
+            <!-- Item cards will be dynamically added here -->
+        </div>
+
+        <div class="cart-panel" id="cart-panel" style="display: none;">
+            <div class="cart-header">
+                <span class="cart-title">Shopping Cart</span>
+            </div>
+            <div class="cart-items" id="cart-items">
+                <!-- Cart items will be dynamically added here -->
+            </div>
+            <div class="cart-total" id="cart-total">
+                Total: ৳ 0.00
+            </div>
+            <button id="buy-now-btn" class="buy-now-btn" disabled>Buy Now</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productTitle = urlParams.get('product');
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let userInfo = JSON.parse(localStorage.getItem('userInfo')) || {};
+
+            if (!productTitle) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            fetch('products.json')
+                .then(response => response.json())
+                .then(data => {
+                    const product = data.find(p => p.title === productTitle);
+                    if (!product) {
+                        window.location.href = 'index.html';
+                        return;
+                    }
+
+                    // Set product image and title
+                    document.getElementById('product-img').src = `assets/games/${productTitle.replace(/ /g, '_')}.jpg`;
+                    document.getElementById('product-title').textContent = product.title;
+
+                    // Add input fields
+                    if (product.input_fields && product.input_fields.length > 0) {
+                        const inputFieldsContainer = document.getElementById('input-fields');
+                        const inputsHTML = product.input_fields.map(field => {
+                            const fieldName = field.name.trim().replace(/[\[\]]/g, '').trim();
+                            const labelText = field.front_name || fieldName.split('_')
+                                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                                .join(' ');
+                            return `
+                                <div class="input-group">
+                                    <label for="${fieldName}">${labelText}</label>
+                                    <input type="${field.type}" id="${fieldName}" name="${fieldName}" required>
+                                </div>
+                            `;
+                        }).join('');
+                        inputFieldsContainer.innerHTML += inputsHTML;
+                    }
+
+                    // Display items
+                    const itemsContainer = document.getElementById('items-list');
+                    product.items.forEach(item => {
+                        const itemCard = document.createElement('div');
+                        itemCard.className = 'item-card';
+                        itemCard.innerHTML = `
+                            <h3 class="item-name">${item.item_name}</h3>
+                            <p class="item-price">${item.item_price}</p>
+                        `;
+
+                        itemCard.addEventListener('click', () => {
+                            updateQuantity(item, 1);
+                        });
+
+                        itemsContainer.appendChild(itemCard);
+                    });
+
+                    // Show cart panel
+                    document.getElementById('cart-panel').style.display = 'block';
+                });
+
+            function updateQuantity(item, change) {
+                const existingItem = cart.find(i => i.item_name === item.item_name);
+                if (existingItem) {
+                    existingItem.quantity += change;
+                    if (existingItem.quantity <= 0) {
+                        cart = cart.filter(i => i.item_name !== item.item_name);
+                    }
+                } else if (change > 0) {
+                    cart.push({
+                        ...item,
+                        quantity: 1
+                    });
+                    
+                    // Show visual feedback when item is added
+                    const itemCards = document.querySelectorAll('.item-card');
+                    itemCards.forEach(card => {
+                        if (card.querySelector('.item-name').textContent === item.item_name) {
+                            // Add a brief highlight effect
+                            const originalBackground = card.style.backgroundColor;
+                            card.style.backgroundColor = '#e7f7e7';
+                            card.style.boxShadow = '0 0 8px rgba(76, 175, 80, 0.6)';
+                            
+                            setTimeout(() => {
+                                card.style.backgroundColor = originalBackground;
+                                card.style.boxShadow = '';
+                            }, 500);
+                        }
+                    });
+                }
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateCart();
+                
+                // Update cart count in header immediately
+                document.getElementById('cart-count').textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+            }
+
+            function validateInputs() {
+                const inputs = document.querySelectorAll('#input-fields input[required]');
+                const isValid = Array.from(inputs).every(input => {
+                    const value = input.value.trim();
+                    if (value !== '') {
+                        // Handle both formats of field names consistently
+                        const fieldName = input.name.includes('[') ? 
+                            input.name.match(/\[(.*?)\]$/)[1] : 
+                            input.name.trim();
+                        userInfo[fieldName] = value;
+                        localStorage.setItem('userInfo', JSON.stringify(userInfo));
+                        return true;
+                    }
+                    return false;
+                });
+                return isValid;
+            }
+
+            function updateBuyNowButton() {
+                const buyNowBtn = document.getElementById('buy-now-btn');
+                buyNowBtn.textContent = 'Add to Cart';
+                const hasItems = cart.length > 0;
+                const inputsValid = validateInputs();
+                buyNowBtn.disabled = !(hasItems && inputsValid);
+            }
+
+            function handleBuyNow() {
+                const inputs = document.querySelectorAll('#input-fields input[required]');
+                inputs.forEach(input => {
+                    // Handle both formats of field names
+                    const fieldName = input.name.includes('[') ? 
+                        input.name.match(/\[(.*?)\]$/)[1] : 
+                        input.name.trim();
+                    userInfo[fieldName] = input.value.trim();
+                });
+                localStorage.setItem('userInfo', JSON.stringify(userInfo));
+
+                const orderData = {
+                    userInfo: userInfo,
+                    cart: cart
+                };
+                
+                // Show visual feedback
+                const buyNowBtn = document.getElementById('buy-now-btn');
+                const originalText = buyNowBtn.textContent;
+                buyNowBtn.textContent = 'Added to Cart ✓';
+                buyNowBtn.style.backgroundColor = '#45a049';
+                
+                setTimeout(() => {
+                    buyNowBtn.textContent = originalText;
+                    buyNowBtn.style.backgroundColor = '';
+                    // Redirect to payment page
+                    window.location.href = 'payment.html';
+                }, 1500);
+            }
+
+            function updateCart() {
+                const cartItems = document.getElementById('cart-items');
+                cartItems.innerHTML = '';
+
+                let total = 0;
+                document.getElementById('cart-count').textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+                cart.forEach(item => {
+                    const price = parseFloat(item.item_price.replace('৳', '').replace(',', ''));
+                    const itemTotal = price * item.quantity;
+                    total += itemTotal;
+
+                    const cartItem = document.createElement('div');
+                    cartItem.className = 'cart-item';
+                    cartItem.innerHTML = `
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.item_name}</div>
+                            <div class="cart-item-price">৳ ${itemTotal.toFixed(2)}</div>
+                        </div>
+                        <div class="cart-item-controls">
+                            <button class="cart-quantity-btn minus">-</button>
+                            <span class="cart-quantity-display">${item.quantity}</span>
+                            <button class="cart-quantity-btn plus">+</button>
+                        </div>
+                    `;
+
+                    const minusBtn = cartItem.querySelector('.minus');
+                    const plusBtn = cartItem.querySelector('.plus');
+
+                    minusBtn.addEventListener('click', () => updateQuantity(item, -1));
+                    plusBtn.addEventListener('click', () => updateQuantity(item, 1));
+
+                    cartItems.appendChild(cartItem);
+                });
+
+                document.getElementById('cart-total').textContent = `Total: ৳ ${total.toFixed(2)}`;
+                updateBuyNowButton();
+            }
+
+            // Add event listeners for input validation
+            const inputFields = document.getElementById('input-fields');
+            inputFields.addEventListener('input', updateBuyNowButton);
+
+            // Add event listener for Buy Now button
+            const buyNowBtn = document.getElementById('buy-now-btn');
+            buyNowBtn.addEventListener('click', handleBuyNow);
+        });
+    </script>
+</body>
+</html>
