@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +13,7 @@
             box-sizing: border-box;
             font-family: 'Arial', sans-serif;
         }
-        
+
         body {
             background-color: #0a192f;
             padding: 20px;
@@ -29,7 +30,7 @@
             height: 100%;
             z-index: -1;
         }
-        
+
         header {
             display: flex;
             justify-content: space-between;
@@ -48,7 +49,7 @@
             align-items: center;
             gap: 30px;
         }
-        
+
         header img {
             width: 512px;
             height: 512px;
@@ -56,7 +57,7 @@
             max-width: 80px;
             object-fit: contain;
         }
-        
+
         header h1 {
             font-size: 2.8rem;
             color: #fff;
@@ -81,18 +82,18 @@
         .nav-items a:hover {
             color: #64ffda;
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
         }
-        
+
         .games-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 20px;
         }
-        
+
         .game-card {
             background-color: rgba(23, 42, 69, 0.8);
             border-radius: 12px;
@@ -102,13 +103,13 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        
+
         .game-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
             background-color: rgba(29, 53, 87, 0.9);
         }
-        
+
         .game-image {
             height: 200px;
             overflow: hidden;
@@ -116,23 +117,23 @@
             background-color: rgba(13, 25, 45, 0.8);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-        
+
         .game-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: transform 0.5s ease;
         }
-        
+
         .game-card:hover .game-image img {
             transform: scale(1.05);
         }
-        
+
         .game-info {
             padding: 15px;
             text-align: center;
         }
-        
+
         .game-title {
             font-size: 1.2rem;
             font-weight: bold;
@@ -144,7 +145,7 @@
             justify-content: center;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         }
-        
+
         .buy-btn {
             display: inline-block;
             background-color: #64ffda;
@@ -158,63 +159,63 @@
             letter-spacing: 0.5px;
             font-size: 0.9rem;
         }
-        
+
         .buy-btn:hover {
             background-color: #4cd8b9;
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(100, 255, 218, 0.3);
         }
-        
+
         @media (max-width: 768px) {
             header {
                 padding: 20px;
             }
-            
+
             header img {
                 height: 80px;
                 margin-right: 20px;
             }
-            
+
             header h1 {
                 font-size: 2.5rem;
             }
-            
+
             header p {
                 font-size: 1.2rem;
             }
-            
+
             .games-container {
                 grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             }
         }
-        
+
         @media (max-width: 480px) {
             header {
                 padding: 15px;
             }
-            
+
             header img {
                 height: 60px;
                 margin-right: 15px;
             }
-            
+
             header h1 {
                 font-size: 1.8rem;
             }
-            
+
             header p {
                 font-size: 1rem;
             }
-            
+
             .games-container {
                 grid-template-columns: 1fr 1fr;
                 gap: 15px;
             }
-            
+
             .game-image {
                 height: 150px;
             }
-            
+
             .buy-btn {
                 padding: 10px 20px;
                 font-size: 0.8rem;
@@ -270,6 +271,12 @@
             margin-bottom: 20px;
         }
 
+        .maintenance-message a {
+            color: #64ffda;
+            text-decoration: underline;
+        }
+
+
         .maintenance-time {
             font-size: 1rem;
             color: #64ffda;
@@ -277,8 +284,13 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         @media (max-width: 480px) {
@@ -300,13 +312,20 @@
         }
     </style>
 </head>
+
 <body>
     <div class="maintenance-overlay">
         <div class="maintenance-content">
             <i class="fas fa-cog maintenance-icon"></i>
             <h1 class="maintenance-title">Under Maintenance</h1>
-            <p class="maintenance-message">We're currently performing scheduled maintenance to improve your gaming experience. Our team is working hard to bring you an even better platform.</p>
-           
+            <p class="maintenance-message">We're currently performing scheduled maintenance to improve your gaming
+                experience. Our team is working hard to bring you an even better platform.</p>
+            <p class="maintenance-message">
+                You can reach us on
+                <a href="https://www.facebook.com/Platinamo" target="_blank">Facebook</a>
+                or
+                <a href="https://wa.me/8801331222317" target="_blank">WhatsApp</a>.
+            </p>
         </div>
     </div>
     <canvas id="stars-canvas"></canvas>
@@ -324,13 +343,13 @@
             <a href="#">Support</a>
         </nav>
     </header>
-    
+
     <div class="container">
         <div class="games-container" id="games-container">
             <!-- Game cards will be inserted here by JavaScript -->
         </div>
     </div>
-    
+
     <script>
         // Stars animation
         const canvas = document.getElementById('stars-canvas');
@@ -384,7 +403,7 @@
 
         animate();
 
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Fetch the products data from products.json
             fetch('products.json')
                 .then(response => response.json())
@@ -394,14 +413,14 @@
                 .catch(error => {
                     console.error('Error fetching the products data:', error);
                 });
-                
+
             // Function to display games in cards
             function displayGames(games) {
                 const gamesContainer = document.getElementById('games-container');
-                
+
                 // Clear the container
                 gamesContainer.innerHTML = '';
-                
+
                 // For each game in the products.json
                 games.forEach(game => {
                     // Create a slug for the image filename from the title
@@ -412,11 +431,11 @@
                         .replace(/\s+/g, '_') // Replace spaces with underscores
                         .replace(/-+/g, '_') // Replace hyphens with underscores
                         .replace(/^_+|_+$/g, ''); // Remove leading/trailing underscores
-                        
+
                     // Create the game card HTML
                     const gameCard = document.createElement('div');
                     gameCard.className = 'game-card';
-                    
+
                     gameCard.innerHTML = `
                         <div class="game-image">
                             <img src="assets/games/${gameSlug}.jpg" 
@@ -428,7 +447,7 @@
                             <a href="products.html?product=${encodeURIComponent(game.title)}" class="buy-btn">Buy Now</a>
                         </div>
                     `;
-                    
+
                     // Add the card to the container
                     gamesContainer.appendChild(gameCard);
                 });
@@ -436,4 +455,5 @@
         });
     </script>
 </body>
+
 </html>
