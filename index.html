@@ -42,6 +42,8 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 100;
         }
 
         .brand {
@@ -81,6 +83,81 @@
 
         .nav-items a:hover {
             color: #64ffda;
+        }
+
+        /* Mobile menu button */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .menu-toggle span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background-color: #64ffda;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        /* Media queries for responsive header */
+        @media (max-width: 768px) {
+            .brand {
+                gap: 15px;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .menu-toggle {
+                display: flex;
+            }
+            
+            .nav-items {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 250px;
+                height: 100vh;
+                background-color: rgba(17, 34, 64, 0.95);
+                flex-direction: column;
+                justify-content: center;
+                padding: 50px 0;
+                transition: right 0.3s ease;
+                z-index: 999;
+                backdrop-filter: blur(10px);
+                border-left: 1px solid rgba(255, 255, 255, 0.1);
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+            }
+            
+            .nav-items.active {
+                right: 0;
+            }
+            
+            .nav-items a {
+                padding: 15px 30px;
+                width: 100%;
+                text-align: center;
+            }
+            
+            /* Hamburger menu animation */
+            .menu-toggle.active span:nth-child(1) {
+                transform: translateY(9px) rotate(45deg);
+            }
+            
+            .menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .menu-toggle.active span:nth-child(3) {
+                transform: translateY(-9px) rotate(-45deg);
+            }
         }
 
         .container {
@@ -172,12 +249,12 @@
             }
 
             header img {
-                height: 80px;
-                margin-right: 20px;
+                height: 60px;
+                max-width: 60px;
             }
 
             header h1 {
-                font-size: 2.5rem;
+                font-size: 2rem;
             }
 
             header p {
@@ -195,12 +272,12 @@
             }
 
             header img {
-                height: 60px;
-                margin-right: 15px;
+                height: 50px;
+                max-width: 50px;
             }
 
             header h1 {
-                font-size: 1.8rem;
+                font-size: 1.5rem;
             }
 
             header p {
@@ -238,16 +315,20 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
+            overflow-y: auto;
+            box-sizing: border-box;
         }
 
         .maintenance-content {
             text-align: center;
             max-width: 600px;
-            padding: 40px;
+            width: 90%;
+            padding: 40px 30px;
             background-color: rgba(23, 42, 69, 0.8);
             border-radius: 16px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            box-sizing: border-box;
         }
 
         .maintenance-icon {
@@ -262,6 +343,8 @@
             color: #fff;
             margin-bottom: 15px;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            word-wrap: break-word;
+            hyphens: auto;
         }
 
         .maintenance-message {
@@ -269,13 +352,16 @@
             color: #8892b0;
             line-height: 1.6;
             margin-bottom: 20px;
+            word-wrap: break-word;
+            hyphens: auto;
         }
 
         .maintenance-message a {
             color: #64ffda;
             text-decoration: underline;
+            display: inline-block;
+            margin: 0 5px;
         }
-
 
         .maintenance-time {
             font-size: 1rem;
@@ -293,21 +379,51 @@
             }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 768px) {
             .maintenance-content {
-                padding: 25px;
+                width: 90%;
+                padding: 30px 25px;
+            }
+            
+            .maintenance-title {
+                font-size: 2rem;
+            }
+            
+            .maintenance-message {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .maintenance-overlay {
+                padding: 15px;
+            }
+            
+            .maintenance-content {
+                width: 100%;
+                padding: 25px 15px;
+                border-radius: 12px;
             }
 
             .maintenance-icon {
-                font-size: 3rem;
+                font-size: 2.5rem;
+                margin-bottom: 15px;
             }
 
             .maintenance-title {
-                font-size: 1.8rem;
+                font-size: 1.5rem;
+                margin-bottom: 10px;
             }
 
             .maintenance-message {
-                font-size: 1rem;
+                font-size: 0.95rem;
+                margin-bottom: 15px;
+                line-height: 1.5;
+            }
+            
+            .maintenance-message a {
+                display: block;
+                margin: 10px auto;
             }
         }
     </style>
@@ -321,10 +437,11 @@
             <p class="maintenance-message">We're currently performing scheduled maintenance to improve your gaming
                 experience. Our team is working hard to bring you an even better platform.</p>
             <p class="maintenance-message">
-                You can reach us on
+                You can reach us on:
+            </p>
+            <p class="maintenance-message">
                 <a href="https://www.facebook.com/Platinamo" target="_blank">Facebook</a>
-                or
-                <a href="https://wa.me/8801331222317" target="_blank">WhatsApp</a>.
+                <a href="https://wa.me/8801331222317" target="_blank">WhatsApp</a>
             </p>
         </div>
     </div>
@@ -334,14 +451,6 @@
             <img src="assets/logo.png" alt="Platinamo Logo">
             <h1>Platinamo</h1>
         </div>
-        <nav class="nav-items">
-            <a href="#">Home</a>
-            <a href="#">Games</a>
-            <a href="#">Top Up</a>
-            <a href="#">About</a>
-            <a href="#">Contact</a>
-            <a href="#">Support</a>
-        </nav>
     </header>
 
     <div class="container">
