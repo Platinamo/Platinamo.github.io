@@ -254,19 +254,13 @@
         "input_fields": [
             {
                 "type": "text",
-                "name": "ppom[fields][mlbb_user_id]"
+                "name": "mlbb_user_id",
+                "label": "User ID"
             },
             {
                 "type": "text",
-                "name": "ppom[fields][mlbb_server_id]"
-            },
-            {
-                "type": "radio",
-                "name": "ppom[fields][check_ign_radio]"
-            },
-            {
-                "type": "hidden",
-                "name": "ppom[fields][mlbb_ign]"
+                "name": "mlbb_server_id",
+                "label": "Server ID"
             }
         ]
     },

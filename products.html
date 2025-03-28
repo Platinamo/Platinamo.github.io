@@ -371,7 +371,7 @@
 <body>
     <header>
         <div class="logo-container">
-            <img src="assets/logo.png" alt="Platinam Logo">
+            <img src="assets/logo.webp" alt="Platinam Logo">
             <div class="title-container">
                 <h1>Platinamo</h1>
                 <p style="color: #dfe6e9; font-size: 1.2rem;">Your Trusted Gaming Shop</p>
@@ -438,7 +438,7 @@
                     }
 
                     // Set product image and title
-                    document.getElementById('product-img').src = `assets/games/${productTitle.replace(/ /g, '_')}.jpg`;
+                    document.getElementById('product-img').src = `assets/games/webp/${productTitle.replace(/ /g, '_')}.webp`;
                     document.getElementById('product-title').textContent = product.title;
 
                     // Add input fields
@@ -446,9 +446,18 @@
                         const inputFieldsContainer = document.getElementById('input-fields');
                         const inputsHTML = product.input_fields.map(field => {
                             const fieldName = field.name.trim().replace(/[\[\]]/g, '').trim();
-                            const labelText = field.front_name || fieldName.split('_')
-                                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                                .join(' ');
+                            let labelText = field.front_name;
+                            
+                            if (!labelText) {
+                                // Special case for MLBB User ID
+                                if (fieldName.includes('mlbb_user_id')) {
+                                    labelText = 'MLBB User ID';
+                                } else {
+                                    labelText = fieldName.split('_')
+                                        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                                        .join(' ');
+                                }
+                            }
                             return `
                                 <div class="input-group">
                                     <label for="${fieldName}">${labelText}</label>

@@ -29,48 +29,157 @@
             height: 100%;
             z-index: -1;
         }
+
+        /* Container for boxed width */
+        .boxed-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
         
+        /* Full width container with side padding */
+        .full-width-container {
+            width: 100%;
+            padding: 0 40px;
+        }
+        
+        /* Full width header */
         header {
-            display: grid;
-            grid-template-columns: auto 1fr;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
-            padding: 30px;
+            padding: 20px 40px;
             background-color: rgba(17, 34, 64, 0.8);
-            border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+            width: 100%;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
         }
         
         header img {
-            height: 100px;
-            margin-right: 30px;
+            height: 60px;
+            margin-right: 15px;
         }
         
-        header .title-container {
+        .logo-text {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
         }
 
         header h1 {
-            font-size: 3.2rem;
+            font-size: 1.8rem;
             color: #fff;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
-        header p {
+        header .tagline {
             color: #8892b0;
-            font-size: 1.4rem;
+            font-size: 0.9rem;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav li {
+            margin-left: 25px;
+        }
+
+        nav a {
+            color: #ccd6f6;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            font-size: 1rem;
+        }
+
+        nav a:hover {
+            color: #64ffda;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .login-btn {
+            color: #64ffda;
+            background: transparent;
+            border: 1px solid #64ffda;
+            padding: 8px 20px;
+            border-radius: 4px;
+            margin-left: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .login-btn:hover {
+            background: rgba(100, 255, 218, 0.1);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, rgba(23, 42, 69, 0.9) 0%, rgba(10, 25, 47, 0.9) 100%);
+            padding: 60px 30px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            color: #64ffda;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            color: #ccd6f6;
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: #64ffda;
+            color: #0a192f;
+            padding: 15px 30px;
+            border-radius: 6px;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: #4cd8b9;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(100, 255, 218, 0.3);
+        }
+
+        /* Featured Games */
+        .featured-section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #64ffda;
+            margin-bottom: 20px;
+            text-align: center;
         }
         
         .games-container {
@@ -150,48 +259,171 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(100, 255, 218, 0.3);
         }
+
+        /* Testimonials */
+        .testimonials {
+            background-color: rgba(17, 34, 64, 0.6);
+            padding: 50px 20px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .testimonial-card {
+            background-color: rgba(23, 42, 69, 0.8);
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .testimonial-text {
+            color: #ccd6f6;
+            font-style: italic;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .testimonial-author {
+            color: #64ffda;
+            font-weight: bold;
+        }
+
+        /* About Section */
+        .about-section {
+            background-color: rgba(17, 34, 64, 0.6);
+            padding: 50px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .about-text {
+            color: #ccd6f6;
+            line-height: 1.6;
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background-color: rgba(17, 34, 64, 0.6);
+            padding: 50px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .contact-icon {
+            font-size: 1.5rem;
+            color: #64ffda;
+            margin-right: 15px;
+        }
+
+        .contact-text {
+            color: #ccd6f6;
+        }
+
+        .contact-text h3 {
+            color: #64ffda;
+            margin-bottom: 5px;
+        }
         
         @media (max-width: 768px) {
             header {
-                padding: 20px;
+                flex-direction: column;
+                padding: 15px;
             }
-            
-            header img {
-                height: 80px;
-                margin-right: 20px;
+
+            .logo-container {
+                margin-bottom: 15px;
             }
-            
-            header h1 {
-                font-size: 2.5rem;
+
+            nav ul {
+                margin-bottom: 15px;
             }
-            
-            header p {
-                font-size: 1.2rem;
+
+            nav li {
+                margin: 0 10px;
             }
-            
+
+            .header-actions {
+                margin-top: 15px;
+            }
+
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
             .games-container {
                 grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             }
         }
         
         @media (max-width: 480px) {
-            header {
-                padding: 15px;
-            }
-            
-            header img {
-                height: 60px;
-                margin-right: 15px;
-            }
-            
             header h1 {
+                font-size: 1.5rem;
+            }
+
+            nav {
+                width: 100%;
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
+
+            nav ul {
+                flex-wrap: nowrap;
+            }
+
+            .hero {
+                padding: 40px 20px;
+            }
+
+            .hero h2 {
                 font-size: 1.8rem;
             }
-            
-            header p {
+
+            .hero p {
                 font-size: 1rem;
             }
-            
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
             .games-container {
                 grid-template-columns: 1fr 1fr;
                 gap: 15px;
@@ -206,213 +438,138 @@
                 font-size: 0.8rem;
             }
         }
-
-        /* Maintenance Mode Overlay */
-        .maintenance-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(10, 25, 47, 0.95);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .maintenance-content {
-            text-align: center;
-            max-width: 600px;
-            padding: 40px;
-            background-color: rgba(23, 42, 69, 0.8);
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
-
-        .maintenance-icon {
-            font-size: 4rem;
-            color: #64ffda;
-            margin-bottom: 20px;
-            animation: spin 4s linear infinite;
-        }
-
-        .maintenance-title {
-            font-size: 2.5rem;
-            color: #fff;
-            margin-bottom: 15px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .maintenance-message {
-            font-size: 1.2rem;
-            color: #8892b0;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        .maintenance-time {
-            font-size: 1rem;
-            color: #64ffda;
-            font-weight: bold;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        @media (max-width: 480px) {
-            .maintenance-content {
-                padding: 25px;
-            }
-
-            .maintenance-icon {
-                font-size: 3rem;
-            }
-
-            .maintenance-title {
-                font-size: 1.8rem;
-            }
-
-            .maintenance-message {
-                font-size: 1rem;
-            }
-        }
     </style>
 </head>
 <body>
-    <!-- <div class="maintenance-overlay">
-        <div class="maintenance-content">
-            <i class="fas fa-cog maintenance-icon"></i>
-            <h1 class="maintenance-title">Under Maintenance</h1>
-            <p class="maintenance-message">We're currently performing scheduled maintenance to improve your gaming experience. Our team is working hard to bring you an even better platform.</p>
-           
-        </div> -->
-    </div>
     <canvas id="stars-canvas"></canvas>
+    
     <header>
-        <img src="assets/logo.png" alt="Platinam Logo">
-        <div class="title-container">
-            <h1>Platinamo</h1>
-            <p style="color: #dfe6e9; font-size: 1.2rem;">Your Trusted Gaming Shop</p>
-        </div>
-    </header>
+            <div class="logo-container">
+                <img src="assets/logo.webp" alt="Platinamo Logo">
+                <div class="logo-text">
+                    <h1>Platinamo</h1>
+                    <p class="tagline">Your Trusted Gaming Shop</p>
+                </div>
+            </div>
+
+            <nav>
+                <ul>
+                    <li><a href="#games-container">Games</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
+                    <li><a href="#about-section">About</a></li>
+                    <li><a href="#contact-section">Contact</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                <a href="#" class="login-btn">Login</a>
+            </div>
+        </header>
     
-    <div class="container">
-        <div class="games-container" id="games-container">
-            <!-- Game cards will be inserted here by JavaScript -->
-        </div>
-    </div>
-    
-    <script>
-        // Stars animation
-        const canvas = document.getElementById('stars-canvas');
-        const ctx = canvas.getContext('2d');
+    <div class="full-width-container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h2>Premium Game Credits & Gift Cards</h2>
+            <p>Get the best deals on in-game currencies, premium passes, and gift cards for all your favorite games. Instant delivery, competitive prices, and 24/7 customer support.</p>
+            <a href="#games-container" class="cta-button">Browse Games</a>
+        </section>
 
-        // Set canvas size
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
+        <!-- Featured Games -->
+        <section class="featured-section">
+            <h2 class="section-title">Popular Games</h2>
+            <div class="games-container" id="games-container">
+                <!-- Game cards will be inserted here by JavaScript -->
+            </div>
 
-        // Star properties
-        const stars = [];
-        const numStars = 200;
-        const starSpeed = 0.2;
-
-        // Create stars
-        for (let i = 0; i < numStars; i++) {
-            stars.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                size: Math.random() * 2,
-                speed: Math.random() * starSpeed + 0.1
-            });
-        }
-
-        // Animate stars
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#ffffff';
-
-            stars.forEach(star => {
-                ctx.beginPath();
-                ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-                ctx.fill();
-
-                // Move star
-                star.y += star.speed;
-
-                // Reset star position if it goes off screen
-                if (star.y > canvas.height) {
-                    star.y = 0;
-                    star.x = Math.random() * canvas.width;
-                }
-            });
-
-            requestAnimationFrame(animate);
-        }
-
-        animate();
-
-        document.addEventListener('DOMContentLoaded', function() {
-            // Fetch the products data from products.json
-            fetch('products.json')
-                .then(response => response.json())
-                .then(data => {
-                    displayGames(data);
-                })
-                .catch(error => {
-                    console.error('Error fetching the products data:', error);
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    fetch('products.json')
+                        .then(response => response.json())
+                        .then(data => {
+                            const gamesContainer = document.getElementById('games-container');
+                            
+                            data.forEach(game => {
+                                const gameCard = document.createElement('div');
+                                gameCard.className = 'game-card';
+                                
+                                // Map product titles to actual image filenames
+                                const imageMap = {
+                                    'Mobile legends: Bang Bang Indonesia': 'Mobile_legends_Indonesia',
+                                    'Xbox Gift Card (US)': 'Xbox_Gift_Card_US',
+                                    // Default to cleaned title if not in map
+                                };
+                                
+                                let imageName = imageMap[game.title] ||
+                                    game.title
+                                        .replace(/ /g, '_')
+                                        .replace(/:/g, '')
+                                        .replace(/\(/g, '')
+                                        .replace(/\)/g, '')
+                                        .replace(/,/g, '');
+                                
+                                // Fallback to default image if not found
+                                gameCard.innerHTML = `
+                                    <div class="game-image">
+                                        <img src="assets/games/webp/${imageName}.webp" alt="${game.title}" onerror="this.src='assets/games/webp/default-game.webp'">
+                                    </div>
+                                    <div class="game-info">
+                                        <h3 class="game-title">${game.title}</h3>
+                                        <a href="products.html?product=${encodeURIComponent(game.title)}" class="buy-btn">View Items</a>
+                                    </div>
+                                `;
+                                
+                                gamesContainer.appendChild(gameCard);
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error loading products:', error);
+                        });
                 });
-                
-            // Function to display games in cards
-            function displayGames(games) {
-                const gamesContainer = document.getElementById('games-container');
-                
-                // Clear the container
-                gamesContainer.innerHTML = '';
-                
-                // For each game in the products.json
-                games.forEach(game => {
-                    // Create a slug for the image filename from the title
-                    const gameSlug = game.title
-                        .replace(/[\(\)]/g, '') // Remove parentheses
-                        .replace(/: Bang Bang/g, '') // Remove subtitle for Mobile Legends
-                        .replace(/[^\w\s-]/g, '') // Remove special characters except hyphen
-                        .replace(/\s+/g, '_') // Replace spaces with underscores
-                        .replace(/-+/g, '_') // Replace hyphens with underscores
-                        .replace(/^_+|_+$/g, ''); // Remove leading/trailing underscores
-                        
-                    // Create the game card HTML
-                    const gameCard = document.createElement('div');
-                    gameCard.className = 'game-card';
-                    
-                    gameCard.innerHTML = `
-                        <div class="game-image">
-                            <img src="assets/games/${gameSlug}.jpg" 
-                                 alt="${game.title}" 
-                                 onerror="this.src='assets/games/default-game.jpg'">
-                        </div>
-                        <div class="game-info">
-                            <h2 class="game-title">${game.title}</h2>
-                            <a href="products.html?product=${encodeURIComponent(game.title)}" class="buy-btn">Buy Now</a>
-                        </div>
-                    `;
-                    
-                    // Add the card to the container
-                    gamesContainer.appendChild(gameCard);
-                });
-            }
-        });
-    </script>
-</body>
-</html>
+            </script>
+        </section>
+
+        <!-- Testimonials -->
+        <section class="testimonials" id="testimonials">
+            <h2 class="section-title">What Our Customers Say</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Fast delivery and great prices! I've been using Platinamo for all my Mobile Legends diamonds and never had any issues."</p>
+                    <p class="testimonial-author">- Rahim, Dhaka</p>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"The customer support team helped me when I had trouble redeeming my Valorant points. Highly recommended!"</p>
+                    <p class="testimonial-author">- Sarah, Chittagong</p>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Best prices for Genshin Impact crystals I've found anywhere. Will definitely be coming back for more."</p>
+                    <p class="testimonial-author">- Fahim, Sylhet</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about-section" id="about-section">
+            <h2 class="section-title">About Platinamo</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Platinamo is Bangladesh's premier destination for game credits and gift cards. Founded in 2020, we've helped thousands of gamers enhance their gaming experience with fast, reliable service.</p>
+                    <p>Our mission is to provide the most competitive prices and instant delivery for all your gaming needs. Whether you're looking for Mobile Legends diamonds, Valorant points, or Steam gift cards, we've got you covered.</p>
+                </div>
+                <div class="about-text">
+                    <p>All transactions are secure and guaranteed. If you have any issues with your purchase, our customer support team is available 极速电竞 - 专业电竞平台
+
+极速电竞是一家专注于电子竞技的综合性平台，我们致力于为电竞爱好者提供最优质的服务和体验。无论您是职业选手还是休闲玩家，都能在这里找到属于您的电竞天地。
+
+平台特色：
+1. 多游戏支持：覆盖英雄联盟、DOTA2、CS:GO、王者荣耀等主流电竞项目
+2. 实时赛事：提供全球各大电竞赛事的直播和资讯
+3. 社区互动：与志同道合的玩家交流心得，组建战队
+4. 数据分析：专业的战绩统计和数据分析工具
+5. 商城服务：游戏点券、皮肤、周边一站式购买
+
+加入极速电竞，开启您的电竞之旅！我们提供：
+- 24小时客服支持
+- 安全便捷的支付系统
+- 定期举办线上/线下赛事
+- 丰厚的会员福利
+
