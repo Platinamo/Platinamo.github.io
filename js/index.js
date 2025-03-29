@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
     animate();
     
     // Load products
-    fetch('products.json')
+    fetch('data/products.json')
         .then(response => response.json())
         .then(data => {
             const gamesContainer = document.getElementById('games-container');

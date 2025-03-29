@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
 
-    fetch('products.json')
+    fetch('data/products.json')
         .then(response => response.json())
         .then(data => {
             const product = data.find(p => p.title === productTitle);
