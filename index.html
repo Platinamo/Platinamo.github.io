@@ -8,544 +8,34 @@
     <meta http-equiv="Expires" content="0" />
     <title>Platinamo - Game Shop</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
-        }
-        
-        body {
-            background-color: #0a192f;
-            padding: 20px;
-            position: relative;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        #stars-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
-
-        /* Container for boxed width */
-        .boxed-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            width: 100%;
-        }
-        
-        /* Full width container with side padding */
-        .full-width-container {
-            width: 100%;
-            padding: 0 40px;
-        }
-        
-        /* Full width header */
-header {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 40px;
-            background-color: rgba(17, 34, 64, 0.8);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 30px;
-            width: 100%;
-            transition: background-color 0.3s ease;
-        }
-
-        header:hover {
-            background-color: rgba(17, 34, 64, 0.9);
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-        }
-        
-header img {
-            height: 60px;
-            margin-right: 15px;
-            transition: transform 0.3s ease;
-        }
-
-        header img:hover {
-            transform: scale(1.1);
-        }
-        
-        .logo-text {
-            display: flex;
-            flex-direction: column;
-        }
-
-        header h1 {
-            font-size: 1.8rem;
-            color: #fff;
-            margin-bottom: 5px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        header .tagline {
-            color: #8892b0;
-            font-size: 0.9rem;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
-
-        nav li {
-            margin-left: 25px;
-        }
-
-        nav a {
-            color: #ccd6f6;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-            font-size: 1rem;
-        }
-
-        nav a:hover {
-            color: #64ffda;
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-        }
-
-        .login-btn {
-            color: #64ffda;
-            background: transparent;
-            border: 1px solid #64ffda;
-            padding: 8px 20px;
-            border-radius: 4px;
-            margin-left: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-        }
-
-        .login-btn:hover {
-            background: rgba(100, 255, 218, 0.1);
-        }
-
-        /* Hero Section */
-.hero {
-            background: linear-gradient(135deg, rgba(23, 42, 69, 0.9) 0%, rgba(10, 25, 47, 0.9) 100%);
-            background-size: cover;
-            background-position: center;
-            padding: 60px 30px;
-            border-radius: 12px;
-            margin-bottom: 40px;
-            text-align: center;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        .hero h2 {
-            font-size: 2.5rem;
-            color: #64ffda;
-            margin-bottom: 20px;
-        }
-
-        .hero p {
-            color: #ccd6f6;
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 0 auto 30px;
-            line-height: 1.6;
-        }
-
-        .cta-button {
-            display: inline-block;
-            background-color: #64ffda;
-            color: #0a192f;
-            padding: 15px 30px;
-            border-radius: 6px;
-            font-weight: bold;
-            text-decoration: none;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-        }
-
-        .cta-button:hover {
-            background-color: #4cd8b9;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(100, 255, 218, 0.3);
-        }
-
-        /* Featured Games */
-        .featured-section {
-            margin-bottom: 40px;
-        }
-
-        .section-title {
-            font-size: 2rem;
-            color: #64ffda;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        
-        .games-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-        }
-        
-        .game-card {
-            background-color: rgba(23, 42, 69, 0.8);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-.game-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-            background-color: rgba(29, 53, 87, 0.9);
-            border: 1px solid #64ffda;
-        }
-        
-.game-image {
-            height: 220px;
-            overflow: hidden;
-            position: relative;
-            background-color: rgba(13, 25, 45, 0.8);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .game-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-        
-        .game-card:hover .game-image img {
-            transform: scale(1.05);
-        }
-        
-        .game-info {
-            padding: 15px;
-            text-align: center;
-        }
-        
-        .game-title {
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: #fff;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-        }
-        
-        .buy-btn {
-            display: inline-block;
-            background-color: #64ffda;
-            color: #0a192f;
-            padding: 12px 24px;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-size: 0.9rem;
-        }
-        
-        .buy-btn:hover {
-            background-color: #4cd8b9;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(100, 255, 218, 0.3);
-        }
-
-        /* Testimonials */
-.testimonials {
-            background: linear-gradient(135deg, rgba(23, 42, 69, 0.9) 0%, rgba(10, 25, 47, 0.9) 100%);
-            padding: 50px 20px;
-            border-radius: 12px;
-            margin-bottom: 40px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .testimonial-grid {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 30px;
-            margin-top: 30px;
-        }
-
-        .testimonial-card {
-            background-color: rgba(23, 42, 69, 0.8);
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            width: 80%;
-            max-width: 600px;
-            text-align: center;
-        }
-
-        .testimonial-text {
-            color: #ccd6f6;
-            font-style: italic;
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
-
-        .testimonial-author {
-            color: #64ffda;
-            font-weight: bold;
-        }
-
-        /* About Section */
-.about-section {
-            background: linear-gradient(135deg, rgba(23, 42, 69, 0.9) 0%, rgba(10, 25, 47, 0.9) 100%);
-            padding: 50px;
-            border-radius: 12px;
-            margin-bottom: 40px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            align-items: center;
-        }
-
-        .about-text {
-            color: #ccd6f6;
-            line-height: 1.6;
-        }
-
-        .about-text p {
-            margin-bottom: 20px;
-        }
-
-        /* Contact Section */
-.contact-section {
-            background: linear-gradient(135deg, rgba(23, 42, 69, 0.9) 0%, rgba(10, 25, 47, 0.9) 100%);
-            padding: 50px;
-            border-radius: 12px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-        }
-
-        .contact-icon {
-            font-size: 1.5rem;
-            color: #64ffda;
-            margin-right: 15px;
-        }
-
-        .contact-text {
-            color: #ccd6f6;
-        }
-
-        .contact-text h3 {
-            color: #64ffda;
-            margin-bottom: 5px;
-        }
-
-/* Footer */
-footer {
-    background-color: rgba(17, 34, 64, 0.8);
-    padding: 20px 40px;
-    text-align: center;
-    color: #ccd6f6;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    margin-top: 40px;
-}
-
-footer p {
-    font-size: 0.9rem;
-    margin-bottom: 10px;
-}
-
-footer ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-}
-
-footer li a {
-    color: #64ffda;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-footer li a:hover {
-    color: #4cd8b9;
-}
-
-@media (max-width: 768px) {
-header {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 40px;
-            background-color: rgba(17, 34, 64, 0.8);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 30px;
-            width: 100%;
-            transition: background-color 0.3s ease;
-        }
-
-        header:hover {
-            background-color: rgba(17, 34, 64, 0.9);
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-        }
-        
-header img {
-            height: 60px;
-            margin-right: 15px;
-            transition: transform 0.3s ease;
-        }
-
-        header img:hover {
-            transform: scale(1.1);
-        }
-
-            nav li {
-                margin: 0 10px;
-            }
-
-            .header-actions {
-                margin-top: 15px;
-            }
-
-            .hero h2 {
-                font-size: 2rem;
-            }
-
-            .about-content {
-                grid-template-columns: 1fr;
-            }
-
-            .games-container {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            }
-        }
-        
-        @media (max-width: 480px) {
-            header h1 {
-                font-size: 1.5rem;
-            }
-
-            nav {
-                width: 100%;
-                overflow-x: auto;
-                padding-bottom: 10px;
-            }
-
-            nav ul {
-                flex-wrap: nowrap;
-            }
-
-            .hero {
-                padding: 40px 20px;
-            }
-
-            .hero h2 {
-                font-size: 1.8rem;
-            }
-
-            .hero p {
-                font-size: 1rem;
-            }
-
-            .section-title {
-                font-size: 1.5rem;
-            }
-
-            .games-container {
-                grid-template-columns: 1fr 1fr;
-                gap: 15px;
-            }
-            
-            .game-image {
-                height: 150px;
-            }
-            
-            .buy-btn {
-                padding: 10px 20px;
-                font-size: 0.8rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="icon" href="assets/logo.ico" type="image/x-icon">
 </head>
 <body>
     <canvas id="stars-canvas"></canvas>
     
     <header>
-            <div class="logo-container">
-                <img src="assets/logo.webp" alt="Platinamo Logo">
-                <div class="logo-text">
-                    <h1>Platinamo</h1>
-                    <p class="tagline">Your Trusted Gaming Shop</p>
-                </div>
+        <div class="logo-container">
+            <img src="assets/logo.webp" alt="Platinamo Logo">
+            <div class="logo-text">
+                <h1>Platinamo</h1>
+                <p class="tagline">Your Trusted Gaming Shop</p>
             </div>
+        </div>
 
-            <nav>
-                <ul>
-                    <li><a href="#games-container">Games</a></li>
-                    <li><a href="#testimonials">Testimonials</a></li>
-                    <li><a href="#about-section">About</a></li>
-                    <li><a href="#contact-section">Contact</a></li>
-                </ul>
-            </nav>
+        <nav>
+            <ul>
+                <li><a href="#games-container">Games</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+                <li><a href="#about-section">About</a></li>
+                <li><a href="#contact-section">Contact</a></li>
+            </ul>
+        </nav>
 
-            <div class="header-actions">
-                <a href="#" class="login-btn">Login</a>
-            </div>
-        </header>
+        <div class="header-actions">
+            <a href="#" class="login-btn">Login</a>
+        </div>
+    </header>
     
     <div class="full-width-container">
         <!-- Hero Section -->
@@ -561,52 +51,6 @@ header img {
             <div class="games-container" id="games-container">
                 <!-- Game cards will be inserted here by JavaScript -->
             </div>
-
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    fetch('products.json')
-                        .then(response => response.json())
-                        .then(data => {
-                            const gamesContainer = document.getElementById('games-container');
-
-                            data.forEach(game => {
-                                 const gameCard = document.createElement('div');
-                                gameCard.className = 'game-card';
-                                
-                                // Map product titles to actual image filenames
-                                const imageMap = {
-                                    'Mobile legends: Bang Bang Indonesia': 'Mobile_legends_Indonesia',
-                                    'Xbox Gift Card (US)': 'Xbox_Gift_Card_US',
-                                    // Default to cleaned title if not in map
-                                };
-                                
-                                let imageName = imageMap[game.title] ||
-                                    game.title
-                                        .replace(/ /g, '_')
-                                        .replace(/:/g, '')
-                                        .replace(/\(/g, '')
-                                        .replace(/\)/g, '')
-                                        .replace(/,/g, '');
-                                
-                                // Fallback to default image if not found
-                                gameCard.innerHTML = `
-                                    <div class="game-image">
-                                        <img src="assets/games/webp/${imageName}.webp" alt="${game.title}" onerror="this.src='assets/games/webp/default-game.webp'">
-                                    </div>
-                                    <div class="game-info">
-                                        <h3 class="game-title">${game.title}</h3>
-                                        <a href="products.html?product=${encodeURIComponent(game.title)}" class="buy-btn">View Items</a>
-                                    </div>
-                                `;
-                                
-                                gamesContainer.appendChild(gameCard);
-                            });
-                        })
-                        .catch(error => {
-                            console.error('Error loading products:', error);
-                        });
-                });
-            </script>
         </section>
 
         <!-- Testimonials -->
@@ -640,3 +84,47 @@ header img {
                     <p>All transactions are secure and guaranteed. If you have any issues with your purchase, our customer support team is available 24/7 to assist you.</p>
                     <p>Join the Platinamo family today and take your gaming to the next level!</p>
                 </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact-section" id="contact-section">
+            <h2 class="section-title">Contact Us</h2>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-envelope contact-icon"></i>
+                    <div class="contact-text">
+                        <h3>Email</h3>
+                        <p>support@platinamo.com</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone contact-icon"></i>
+                    <div class="contact-text">
+                        <h3>Phone</h3>
+                        <p>+880 1234 567890</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt contact-icon"></i>
+                    <div class="contact-text">
+                        <h3>Address</h3>
+                        <p>123 Gaming Street, Dhaka 1207, Bangladesh</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Platinamo. All rights reserved.</p>
+        <ul>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Refund Policy</a></li>
+        </ul>
+    </footer>
+
+    <script src="js/index.js"></script>
+</body>
+</html>
