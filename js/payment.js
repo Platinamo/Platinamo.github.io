@@ -381,43 +381,65 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('--- Order Details ---');
             console.log(JSON.stringify(orderDetails, null, 2));
             
-            // Simulate order placement
-            alert('Order placed successfully! Thank you for your purchase.\n(Check the browser console for order details)');
+            // --- Send Order Details to Backend API --- (Replaces direct Telegram call)
+            fetch('http://localhost:3000/api/send-order', { // Use your backend server URL/port
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(orderDetails),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Backend response:', data);
+                if (data.success) {
+                    // Simulate order placement success (alert)
+                    alert('Order placed successfully! Thank you for your purchase.');
 
-            // Clear cart and user info from storage
-            localStorage.removeItem('cart');
-            localStorage.removeItem('userInfo');
-            cart = [];
+                    // Clear cart and user info from storage
+                    localStorage.removeItem('cart');
+                    localStorage.removeItem('userInfo');
+                    cart = [];
 
-            // Update display to show empty cart and confirmation
-            updateDisplay(); 
-            const gameSectionsContainer = document.getElementById('game-sections');
-            gameSectionsContainer.innerHTML = '<p style="color: green; font-weight: bold;">Order placed successfully! Your cart is now empty.</p>' 
-                                            + gameSectionsContainer.innerHTML; // Prepend success message
+                    // Update display to show empty cart and confirmation
+                    updateDisplay(); 
+                    const gameSectionsContainer = document.getElementById('game-sections');
+                    if (gameSectionsContainer) {
+                         gameSectionsContainer.innerHTML = '<p style="color: green; font-weight: bold;">Order placed successfully! Your cart is now empty.</p>' 
+                                                 + gameSectionsContainer.innerHTML; // Prepend success message
+                    }
 
-            // Disable buttons and clear/hide forms after order
-            placeOrderBtn.disabled = true;
-            if(clearCartBtn) clearCartBtn.disabled = true;
-            
-            // Clear User Details Form
-            userNameInput.value = '';
-            userEmailInput.value = '';
-            userPhoneInput.value = '';
-            // Clear Payment Method Form elements
-            paymentOptions.forEach(option => option.checked = false);
-            if(trxIdInput) trxIdInput.value = '';
-            if(bankRefInput) bankRefInput.value = '';
-            sendMoneySubOptionBtns.forEach(btn => btn.classList.remove('selected')); // Deselect sub-options
-            handlePaymentMethodChange(); // Hide all instructions again
-            
-            // Hide forms
-            const userDetailsForm = document.querySelector('.user-details-form');
-            if (userDetailsForm) userDetailsForm.style.display = 'none';
-            const paymentForm = document.querySelector('.payment-method-selection');
-            if (paymentForm) paymentForm.style.display = 'none';
+                    // Disable buttons and clear/hide forms after order
+                    placeOrderBtn.disabled = true;
+                    if(clearCartBtn) clearCartBtn.disabled = true;
+                    
+                    // Clear User Details Form
+                    if(userNameInput) userNameInput.value = '';
+                    if(userEmailInput) userEmailInput.value = '';
+                    if(userPhoneInput) userPhoneInput.value = '';
+                    // Clear Payment Method Form elements
+                    paymentOptions.forEach(option => option.checked = false);
+                    if(trxIdInput) trxIdInput.value = '';
+                    if(bankRefInput) bankRefInput.value = '';
+                    sendMoneySubOptionBtns.forEach(btn => btn.classList.remove('selected'));
+                    handlePaymentMethodChange(); // Hide all instructions again
 
-            // Optional: Redirect to a thank-you page after a delay
-            // setTimeout(() => { window.location.href = 'thankyou.html'; }, 3000);
+                    // Hide forms
+                    const userDetailsForm = document.querySelector('.user-details-form');
+                    if (userDetailsForm) userDetailsForm.style.display = 'none';
+                    const paymentForm = document.querySelector('.payment-method-selection');
+                    if (paymentForm) paymentForm.style.display = 'none';
+                } else {
+                     // Handle potential errors from the backend
+                     alert('There was an issue placing your order. Please try again later. Error: ' + (data.message || 'Unknown error'));
+                     placeOrderBtn.disabled = false; // Re-enable button on failure
+                }
+            })
+            .catch((error) => {
+                console.error('Error sending order to backend:', error);
+                alert('Failed to connect to the server to place your order. Please check your connection and try again.');
+                placeOrderBtn.disabled = false; // Re-enable button on network failure
+            });
         });
     }
 
