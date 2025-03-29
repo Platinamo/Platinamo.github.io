@@ -55,6 +55,10 @@ document.addEventListener('DOMContentLoaded', function() {
             data.forEach(game => {
                 const gameCard = document.createElement('div');
                 gameCard.className = 'game-card';
+                // Add onclick handler to make the card clickable
+                gameCard.onclick = () => {
+                    window.location.href = `products.html?product=${encodeURIComponent(game.title)}`;
+                };
                 
                 // Map product titles to actual image filenames
                 const imageMap = {
@@ -78,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                     <div class="game-info">
                         <h3 class="game-title">${game.title}</h3>
-                        <a href="products.html?product=${encodeURIComponent(game.title)}" class="buy-btn">View Items</a>
+                        <a href="products.html?product=${encodeURIComponent(game.title)}" class="buy-btn">Buy Now</a>
                     </div>
                 `;
                 

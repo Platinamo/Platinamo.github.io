@@ -1,162 +1,158 @@
-/* Payment Page Specific Styles */
+/* Payment Page Specific Styles - Modernized */
 
-/* Order Summary */
-.order-summary {
-    background-color: white;
-    border-radius: 12px;
+:root {
+    --dark-bg: #0a192f;
+    --light-dark-bg: #112240; /* Slightly lighter dark shade */
+    --accent-color: #64ffda;
+    --text-primary: #ccd6f6;
+    --text-secondary: #8892b0;
+    --card-bg: rgba(17, 34, 64, 0.8); /* Match header */
+    --border-color: rgba(100, 255, 218, 0.1);
+    --input-bg: #1d2d50; /* Darker input background */
+    --danger-color: #e74c3c;
+    --danger-hover: #c0392b;
+}
+
+/* Ensure body background from main.css applies */
+body {
+    background-color: var(--dark-bg);
+    color: var(--text-primary);
+}
+
+/* Container adjustments (leverage main.css styles) */
+.container {
+    max-width: 900px; /* Constrain width for better readability */
+    margin: 40px auto; /* Center container */
+    padding: 0 20px; /* Add horizontal padding */
+}
+
+/* Back Button Styling (leverage main.css) */
+.back-btn {
+    margin-bottom: 30px;
+}
+
+/* Shared Card Styling */
+.order-summary,
+.user-details-form {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
     padding: 30px;
     margin-bottom: 30px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(5px);
+    transition: box-shadow 0.3s ease;
 }
 
-.order-summary:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+.order-summary:hover,
+.user-details-form:hover {
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.5);
 }
 
+/* Section Title Styling */
 .section-title {
-    font-size: 1.8rem;
-    color: #2d3436;
-    margin-bottom: 20px;
-    padding-bottom: 15px;
-    border-bottom: 2px solid #f1f2f6;
-    font-weight: 600;
-}
-
-/* Game Section */
-.game-section {
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    padding: 20px;
+    font-size: 1.6rem; /* Slightly smaller */
+    color: var(--accent-color); /* Use accent color */
     margin-bottom: 25px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s ease;
-    animation: fadeIn 0.5s ease forwards;
-}
-
-.game-section:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.game-title {
-    font-size: 1.4rem;
-    color: #2d3436;
-    margin-bottom: 15px;
     padding-bottom: 10px;
-    border-bottom: 1px solid #e9ecef;
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 600;
+    text-align: left; /* Align left */
+}
+
+/* Order Summary Content Sections */
+#game-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.game-user-info-summary,
+.cart-items-summary {
+    padding: 20px;
+    background-color: var(--light-dark-bg); /* Slightly lighter background for contrast */
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+}
+
+.game-user-info-summary h3,
+.cart-items-summary h3 {
+    font-size: 1.2rem;
+    color: var(--text-primary);
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.game-user-info-summary ul,
+.order-items-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.game-user-info-summary li {
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.game-user-info-summary li strong {
+    color: var(--text-primary);
+    margin-right: 5px;
+}
+
+/* Cart Item Styling */
+.cart-item-display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--border-color);
+    gap: 15px;
+}
+
+.cart-item-display:last-child {
+    border-bottom: none;
+}
+
+.item-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.item-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 1rem;
+    margin-bottom: 4px;
+}
+
+.item-price {
+    color: var(--accent-color);
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.item-controls {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.game-title i {
-    color: #4CAF50;
+.quantity-display {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    min-width: 20px;
+    text-align: center;
 }
 
-/* User Info */
-.user-info, .cart-items {
-    margin-bottom: 25px;
-}
-
-.info-row {
-    display: flex;
-    margin-bottom: 12px;
-    padding: 8px 0;
-    border-bottom: 1px dashed #e9ecef;
-}
-
-.info-label {
-    font-weight: 600;
-    width: 150px;
-    color: #2d3436;
-}
-
-.info-value {
-    flex: 1;
-    color: #495057;
-}
-
-/* Cart Items */
-.cart-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    background-color: white;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s ease;
-}
-
-.cart-item:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transform: translateY(-2px);
-}
-
-.item-details {
-    flex: 1;
-}
-
-.item-name {
-    font-weight: 600;
-    color: #2d3436;
-    margin-bottom: 8px;
-    font-size: 1.1rem;
-}
-
-.item-price {
-    color: #4CAF50;
-    font-weight: 600;
-    font-size: 1.1rem;
-}
-
-.item-quantity {
-    color: #6c757d;
-    font-size: 0.95rem;
-    display: flex;
-    align-items: center;
-    margin-top: 8px;
-}
-
-/* Total Section */
-.total-section {
-    text-align: right;
-    padding-top: 20px;
-    border-top: 2px solid #f1f2f6;
-}
-
-.total-amount {
-    font-size: 1.8rem;
-    color: #2d3436;
-    font-weight: 700;
-}
-
-/* Buttons */
+.quantity-btn,
 .remove-btn {
-    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    padding: 10px 16px;
-    cursor: pointer;
-    font-size: 0.95rem;
-    transition: all 0.3s ease;
-    font-weight: 600;
-    box-shadow: 0 2px 6px rgba(231, 76, 60, 0.3);
-}
-
-.remove-btn:hover {
-    background: linear-gradient(135deg, #c0392b 0%, #a93226 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(231, 76, 60, 0.4);
-}
-
-.quantity-btn {
-    background-color: #2d3436;
-    color: white;
-    border: none;
+    background: transparent;
+    border: 1px solid var(--text-secondary);
+    color: var(--text-secondary);
     border-radius: 4px;
     width: 28px;
     height: 28px;
@@ -165,69 +161,437 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin: 0 8px;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+    padding: 0; /* Remove default padding */
 }
 
 .quantity-btn:hover {
-    background-color: #1e2628;
-    transform: scale(1.1);
+    background-color: rgba(100, 255, 218, 0.1);
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    transform: scale(1.05);
+}
+
+.remove-btn {
+    border-color: var(--danger-color);
+    color: var(--danger-color);
+}
+
+.remove-btn i {
+     font-size: 0.8rem; /* Adjust icon size */
+}
+
+.remove-btn:hover {
+    background-color: rgba(231, 76, 60, 0.1);
+    border-color: var(--danger-hover);
+    color: var(--danger-hover);
+     transform: scale(1.05);
+}
+
+/* Total Section */
+.total-section {
+    text-align: right;
+    padding-top: 20px;
+    margin-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.total-amount {
+    font-size: 1.6rem;
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+/* User Details Form */
+.user-details-form .input-group {
+    margin-bottom: 20px;
+}
+
+.user-details-form label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.user-details-form input[type="text"],
+.user-details-form input[type="email"],
+.user-details-form input[type="tel"] {
+    width: 100%;
+    padding: 12px 15px;
+    background-color: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.user-details-form input[type="text"]:focus,
+.user-details-form input[type="email"]:focus,
+.user-details-form input[type="tel"]:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(100, 255, 218, 0.2);
+}
+
+/* Buttons Container */
+.payment-actions {
+    display: flex;
+    justify-content: space-between; /* Align buttons */
+    align-items: center;
+    margin-top: 30px;
+    gap: 15px; /* Add gap between buttons */
+}
+
+/* Leverage .buy-now-btn from main.css but customize */
+#place-order-btn,
+#clear-cart-btn {
+    /* Inherit base styles from .buy-now-btn in main.css if defined */
+    /* Specific overrides or additions */
+    padding: 12px 25px;
+    font-size: 1rem;
+    flex-grow: 1; /* Make buttons grow equally */
+    max-width: 48%; /* Limit width */
+    text-align: center;
+}
+
+/* Primary button style */
+#place-order-btn {
+    background-color: var(--accent-color);
+    color: var(--dark-bg);
+    border: 1px solid var(--accent-color);
+    font-weight: bold;
+}
+
+#place-order-btn:hover {
+    background-color: #4cd8b9; /* Slightly darker accent */
+    border-color: #4cd8b9;
+    box-shadow: 0 4px 12px rgba(100, 255, 218, 0.3);
+    transform: translateY(-2px);
+}
+
+#place-order-btn:disabled {
+    background-color: var(--text-secondary);
+    border-color: var(--text-secondary);
+    color: var(--light-dark-bg);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Secondary/Danger button style */
+#clear-cart-btn {
+    background-color: transparent;
+    color: var(--danger-color);
+    border: 1px solid var(--danger-color);
+}
+
+#clear-cart-btn:hover {
+    background-color: rgba(231, 76, 60, 0.1);
+    color: var(--danger-hover);
+    border-color: var(--danger-hover);
+    transform: translateY(-2px);
 }
 
 /* Empty Cart */
 .cart-empty-message {
     text-align: center;
-    padding: 30px;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    padding: 40px 20px;
+    background-color: var(--light-dark-bg);
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
 }
 
 .cart-empty-message i {
     font-size: 3rem;
-    color: #ddd;
+    color: var(--text-secondary);
     margin-bottom: 15px;
     display: block;
 }
 
 .cart-empty-message p {
-    color: #6c757d;
-    font-size: 1.2rem;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
 }
 
-/* Animations */
+/* Animations (keep existing) */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
+    from { opacity: 0; transform: translateY(10px); } /* Subtle animation */
     to { opacity: 1; transform: translateY(0); }
 }
 
 /* Responsive Styles */
 @media (max-width: 768px) {
     .container {
-        padding: 15px;
+        margin: 20px auto;
+        padding: 0 15px;
     }
 
-    .order-summary {
+    .order-summary,
+    .user-details-form {
         padding: 20px;
     }
 
-    .info-row {
-        flex-direction: column;
+    .section-title {
+        font-size: 1.4rem;
     }
 
-    .info-label {
-        width: 100%;
-        margin-bottom: 5px;
-    }
-
-    .cart-item {
+    .cart-item-display {
         flex-direction: column;
         align-items: flex-start;
     }
 
-    .remove-btn {
-        margin-top: 15px;
+    .item-controls {
         width: 100%;
+        margin-top: 10px;
+        justify-content: flex-end; /* Align controls to the right */
+    }
+    
+    .remove-btn {
+        margin-left: auto; /* Push remove button far right */
+    }
+    
+    .payment-actions {
+        flex-direction: column;
+    }
+    
+    #place-order-btn,
+    #clear-cart-btn {
+       max-width: 100%; /* Full width on small screens */
+       width: 100%; 
+    }
+}
+
+/* Add specific styles for the sections added in JS */
+.game-user-info-summary ul {
+    padding-left: 0; /* Remove default padding */
+}
+
+.order-items-list {
+    padding-left: 0; /* Remove default padding */
+}
+
+/* Payment Method Selection */
+.payment-method-selection {
+    /* Inherits card styling from .user-details-form */
+}
+
+.payment-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Space between options */
+}
+
+.payment-option {
+    background-color: var(--light-dark-bg); /* Use slightly lighter bg */
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 15px 20px;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.payment-option input[type="radio"] {
+    display: none; /* Hide the default radio button */
+}
+
+.payment-option label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    font-weight: 500;
+    width: 100%;
+}
+
+.payment-icon {
+    width: 32px; /* Adjust size as needed */
+    height: auto;
+    margin-right: 15px;
+    vertical-align: middle;
+}
+
+/* Style label when radio is checked */
+.payment-option input[type="radio"]:checked + label {
+    color: var(--accent-color); /* Highlight selected label */
+}
+
+/* Style the container when radio is checked */
+.payment-option input[type="radio"]:checked ~ .payment-instructions {
+    display: block !important; /* Show instructions - Use !important cautiously */
+}
+.payment-option input[type="radio"]:checked {
+   /* Maybe add subtle border highlight to the parent .payment-option */
+    /* Example: find parent and add style via JS, or use :has() if browser support is sufficient */
+}
+
+.payment-option:has(input[type="radio"]:checked) { /* Experimental: uses :has() */
+    border-color: var(--accent-color);
+    background-color: rgba(100, 255, 218, 0.05); /* Subtle highlight */
+}
+
+
+/* Payment Instructions Area */
+.payment-instructions {
+    margin-top: 15px;
+    padding: 15px;
+    background-color: var(--dark-bg); /* Slightly darker than the option bg */
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    animation: fadeIn 0.3s ease;
+}
+
+.payment-instructions p {
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.payment-instructions ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 10px;
+}
+
+.payment-instructions li {
+    margin-bottom: 5px;
+    background-color: var(--light-dark-bg); /* Background for list items */
+    padding: 8px 12px;
+    border-radius: 4px;
+}
+
+.payment-instructions strong {
+    color: var(--text-primary);
+    margin-right: 5px;
+}
+
+.payment-instructions small {
+    display: block;
+    margin-top: 10px;
+    font-style: italic;
+    color: var(--text-secondary);
+}
+
+/* Adjust input group within instructions */
+.payment-instructions .input-group label {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+.payment-instructions .input-group input[type="text"] {
+    background-color: var(--light-dark-bg); /* Match list item background */
+    font-size: 0.95rem;
+    padding: 10px 12px;
+}
+
+/* Send Money Sub-options */
+.send-money-sub-options {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.sub-option-btn {
+    flex-grow: 1; /* Allow buttons to grow */
+    padding: 10px 15px;
+    background-color: var(--dark-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.sub-option-btn img.payment-icon {
+    width: 24px; /* Smaller icons for sub-options */
+    height: auto;
+    margin-right: 0; /* Remove margin as gap is used */
+}
+
+.sub-option-btn:hover {
+    background-color: var(--light-dark-bg);
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+
+.sub-option-btn.selected {
+    background-color: var(--light-dark-bg);
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    font-weight: bold;
+    box-shadow: 0 0 8px rgba(100, 255, 218, 0.2);
+}
+
+/* Send Money Details Area */
+.send-money-details {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px dashed var(--border-color);
+}
+
+.copyable-number-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--dark-bg);
+    padding: 10px 15px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    margin: 10px 0;
+}
+
+.copyable-number-container strong {
+    color: var(--text-secondary);
+}
+
+.copy-target {
+    font-weight: bold;
+    color: var(--accent-color);
+    cursor: pointer; 
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.copy-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 5px;
+    font-size: 1rem;
+    line-height: 1;
+    transition: color 0.2s ease;
+}
+
+.copy-btn:hover {
+    color: var(--accent-color);
+}
+
+.copy-feedback {
+    font-size: 0.8rem;
+    color: var(--accent-color);
+    margin-left: 5px;
+    font-style: italic;
+}
+
+/* Adjustments for responsiveness if needed */
+@media (max-width: 480px) {
+    .send-money-sub-options {
+        flex-direction: column; /* Stack buttons vertically */
+    }
+    .sub-option-btn {
+        width: 100%; /* Full width buttons */
     }
 }

@@ -33,8 +33,116 @@
                 <div class="total-amount" id="total-amount">Total: ৳ 0.00</div>
             </div>
         </div>
-        <button id="place-order-btn" class="buy-now-btn">Place Order</button>
-        <button id="clear-cart-btn" class="buy-now-btn">Clear Cart</button>
+
+        <div class="user-details-form">
+            <h2 class="section-title">Your Details</h2>
+            <div class="input-group">
+                <label for="user-name">Name</label>
+                <input type="text" id="user-name" name="userName" required>
+            </div>
+            <div class="input-group">
+                <label for="user-email">Email</label>
+                <input type="email" id="user-email" name="userEmail" required>
+            </div>
+            <div class="input-group">
+                <label for="user-phone">Phone Number</label>
+                <input type="tel" id="user-phone" name="userPhone" required>
+            </div>
+        </div>
+
+        <!-- Payment Method Selection -->
+        <div class="payment-method-selection user-details-form"> <!-- Reusing form styling -->
+            <h2 class="section-title">Select Payment Method</h2>
+            
+            <div class="payment-options">
+                <div class="payment-option">
+                    <input type="radio" id="bkash-gateway" name="paymentMethod" value="bKash Gateway" required>
+                    <label for="bkash-gateway">
+                        <img src="assets/bkash.png" alt="bKash Logo" class="payment-icon">
+                        bKash Payment Gateway
+                    </label>
+                    <div class="payment-instructions" id="bkash-gateway-instructions" style="display: none;">
+                        <p>You will be redirected to bKash to complete your payment securely.</p>
+                    </div>
+                </div>
+
+                <!-- Send Money Section (Revised Structure) -->
+                <div class="payment-option">
+                    <input type="radio" id="send-money" name="paymentMethod" value="Send Money">
+                    <label for="send-money">
+                         <img src="assets/bkash.png" alt="Send Money" class="payment-icon"> <!-- Using bKash as primary icon -->
+                        Send Money (Manual)
+                    </label>
+                    
+                    <!-- Instructions container for Send Money -->
+                    <div class="payment-instructions" id="send-money-instructions" style="display: none;">
+                        <p>1. Select the service you want to send money through:</p>
+                        <!-- Sub-method selection -->
+                        <div class="send-money-sub-options">
+                            <button type="button" class="sub-option-btn" data-method="bKash" data-number="01XXXXXXXXX">
+                                <img src="assets/bkash.png" alt="bKash Send Money" class="payment-icon">
+                                bKash
+                            </button>
+                            <button type="button" class="sub-option-btn" data-method="Nagad" data-number="01YYYYYYYYY">
+                                <img src="assets/nagad.png" alt="Nagad Send Money" class="payment-icon">
+                                Nagad
+                            </button>
+                            <button type="button" class="sub-option-btn" data-method="Rocket" data-number="01ZZZZZZZZZ">
+                                <img src="assets/rocket.png" alt="Rocket Send Money" class="payment-icon">
+                                Rocket
+                            </button>
+                        </div>
+                        
+                        <!-- Area to show selected number and TrxID input (initially hidden) -->
+                        <div class="send-money-details" id="send-money-details-area" style="display: none;">
+                             <p>2. Send the total amount (<span id="send-money-total">৳ 0.00</span>) to the number below:</p>
+                             <div class="copyable-number-container">
+                                 <strong>Number:</strong> 
+                                 <span id="selected-send-money-number" class="copy-target" title="Click to copy"></span>
+                                 <button type="button" class="copy-btn" aria-label="Copy number"><i class="far fa-copy"></i></button>
+                                 <span class="copy-feedback"></span>
+                             </div>
+                             <p>3. Enter the Transaction ID (TrxID) you received:</p>
+                             <div class="input-group" style="margin-top: 10px;">
+                                  <label for="trxId">Transaction ID (TrxID)</label>
+                                  <input type="text" id="trxId" name="trxId" placeholder="Enter the TrxID from your app">
+                             </div>
+                             <small>Your order will be processed after manual payment confirmation.</small>
+                        </div>
+                    </div>
+                 </div>
+                 <!-- End Send Money Section -->
+
+                <div class="payment-option">
+                    <input type="radio" id="bank-transfer" name="paymentMethod" value="Bank Transfer">
+                    <label for="bank-transfer">
+                        <img src="assets/bank.png" alt="Bank Transfer" class="payment-icon">
+                        Bank Transfer
+                    </label>
+                    <div class="payment-instructions" id="bank-transfer-instructions" style="display: none;">
+                        <p>Please transfer the total amount to the following bank account and provide the deposit slip or reference below:</p>
+                        <ul>
+                            <li><strong>Bank Name:</strong> Example Bank Ltd.</li>
+                            <li><strong>Account Name:</strong> Platinamo Gaming</li>
+                            <li><strong>Account Number:</strong> 1234567890123</li>
+                            <li><strong>Branch:</strong> Example Branch</li>
+                            <li><strong>Routing Number:</strong> 987654321</li>
+                        </ul>
+                         <div class="input-group" style="margin-top: 15px;">
+                             <label for="bankRef">Reference / Slip Details</label>
+                             <input type="text" id="bankRef" name="bankRef" placeholder="e.g., Deposit slip number or reference">
+                        </div>
+                        <small>Your order will be processed after payment confirmation.</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Payment Method Selection -->
+
+        <div class="payment-actions">
+            <button id="place-order-btn" class="buy-now-btn">Place Order</button>
+            <button id="clear-cart-btn" class="buy-now-btn">Clear Cart</button>
+        </div>
     </div>
 
     <script src="js/payment.js"></script>
