@@ -44,7 +44,10 @@
         }
         
         /* Full width header */
-        header {
+header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -55,6 +58,11 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             margin-bottom: 30px;
             width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        header:hover {
+            background-color: rgba(17, 34, 64, 0.9);
         }
 
         .logo-container {
@@ -62,9 +70,14 @@
             align-items: center;
         }
         
-        header img {
+header img {
             height: 60px;
             margin-right: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        header img:hover {
+            transform: scale(1.1);
         }
         
         .logo-text {
@@ -128,14 +141,17 @@
         }
 
         /* Hero Section */
-        .hero {
+.hero {
             background: linear-gradient(135deg, rgba(23, 42, 69, 0.9) 0%, rgba(10, 25, 47, 0.9) 100%);
+            background-size: cover;
+            background-position: center;
             padding: 60px 30px;
             border-radius: 12px;
             margin-bottom: 40px;
             text-align: center;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         .hero h2 {
@@ -198,14 +214,15 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        .game-card:hover {
+.game-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
             background-color: rgba(29, 53, 87, 0.9);
+            border: 1px solid #64ffda;
         }
         
-        .game-image {
-            height: 200px;
+.game-image {
+            height: 220px;
             overflow: hidden;
             position: relative;
             background-color: rgba(13, 25, 45, 0.8);
@@ -261,8 +278,8 @@
         }
 
         /* Testimonials */
-        .testimonials {
-            background-color: rgba(17, 34, 64, 0.6);
+.testimonials {
+            background: linear-gradient(135deg, rgba(23, 42, 69, 0.9) 0%, rgba(10, 25, 47, 0.9) 100%);
             padding: 50px 20px;
             border-radius: 12px;
             margin-bottom: 40px;
@@ -271,8 +288,9 @@
         }
 
         .testimonial-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             gap: 30px;
             margin-top: 30px;
         }
@@ -282,6 +300,9 @@
             padding: 25px;
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 600px;
+            text-align: center;
         }
 
         .testimonial-text {
@@ -297,13 +318,14 @@
         }
 
         /* About Section */
-        .about-section {
-            background-color: rgba(17, 34, 64, 0.6);
+.about-section {
+            background: linear-gradient(135deg, rgba(23, 42, 69, 0.9) 0%, rgba(10, 25, 47, 0.9) 100%);
             padding: 50px;
             border-radius: 12px;
             margin-bottom: 40px;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         .about-content {
@@ -323,8 +345,8 @@
         }
 
         /* Contact Section */
-        .contact-section {
-            background-color: rgba(17, 34, 64, 0.6);
+.contact-section {
+            background: linear-gradient(135deg, rgba(23, 42, 69, 0.9) 0%, rgba(10, 25, 47, 0.9) 100%);
             padding: 50px;
             border-radius: 12px;
             backdrop-filter: blur(10px);
@@ -332,9 +354,9 @@
         }
 
         .contact-info {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
             margin-top: 30px;
         }
 
@@ -357,20 +379,76 @@
             color: #64ffda;
             margin-bottom: 5px;
         }
+
+/* Footer */
+footer {
+    background-color: rgba(17, 34, 64, 0.8);
+    padding: 20px 40px;
+    text-align: center;
+    color: #ccd6f6;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 40px;
+}
+
+footer p {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+footer ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+footer li a {
+    color: #64ffda;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer li a:hover {
+    color: #4cd8b9;
+}
+
+@media (max-width: 768px) {
+header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background-color: rgba(17, 34, 64, 0.8);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        header:hover {
+            background-color: rgba(17, 34, 64, 0.9);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
         
-        @media (max-width: 768px) {
-            header {
-                flex-direction: column;
-                padding: 15px;
-            }
+header img {
+            height: 60px;
+            margin-right: 15px;
+            transition: transform 0.3s ease;
+        }
 
-            .logo-container {
-                margin-bottom: 15px;
-            }
-
-            nav ul {
-                margin-bottom: 15px;
-            }
+        header img:hover {
+            transform: scale(1.1);
+        }
 
             nav li {
                 margin: 0 10px;
@@ -483,13 +561,14 @@
 
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
-                    fetch('products.json')
+                    const timestamp = new Date().getTime();
+                    fetch('products.json?t=' + timestamp)
                         .then(response => response.json())
                         .then(data => {
                             const gamesContainer = document.getElementById('games-container');
-                            
+
                             data.forEach(game => {
-                                const gameCard = document.createElement('div');
+                                 const gameCard = document.createElement('div');
                                 gameCard.className = 'game-card';
                                 
                                 // Map product titles to actual image filenames
@@ -556,20 +635,6 @@
                     <p>Our mission is to provide the most competitive prices and instant delivery for all your gaming needs. Whether you're looking for Mobile Legends diamonds, Valorant points, or Steam gift cards, we've got you covered.</p>
                 </div>
                 <div class="about-text">
-                    <p>All transactions are secure and guaranteed. If you have any issues with your purchase, our customer support team is available 极速电竞 - 专业电竞平台
-
-极速电竞是一家专注于电子竞技的综合性平台，我们致力于为电竞爱好者提供最优质的服务和体验。无论您是职业选手还是休闲玩家，都能在这里找到属于您的电竞天地。
-
-平台特色：
-1. 多游戏支持：覆盖英雄联盟、DOTA2、CS:GO、王者荣耀等主流电竞项目
-2. 实时赛事：提供全球各大电竞赛事的直播和资讯
-3. 社区互动：与志同道合的玩家交流心得，组建战队
-4. 数据分析：专业的战绩统计和数据分析工具
-5. 商城服务：游戏点券、皮肤、周边一站式购买
-
-加入极速电竞，开启您的电竞之旅！我们提供：
-- 24小时客服支持
-- 安全便捷的支付系统
-- 定期举办线上/线下赛事
-- 丰厚的会员福利
-
+                    <p>All transactions are secure and guaranteed. If you have any issues with your purchase, our customer support team is available 24/7 to assist you.</p>
+                    <p>Join the Platinamo family today and take your gaming to the next level!</p>
+                </div>

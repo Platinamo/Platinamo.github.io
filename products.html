@@ -10,22 +10,39 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
         }
-
+        
         body {
-            font-family: Arial, sans-serif;
+            background-color: #0a192f;
+            padding: 20px;
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #ccd6f6;
             line-height: 1.6;
-            background-color: #f5f6fa;
+        }
+        
+        #stars-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
         }
 
         header {
-            background-color: #2d3436;
-            color: white;
-            padding: 20px;
-            text-align: center;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 20px 40px;
+            background-color: rgba(17, 34, 64, 0.8);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+            width: 100%;
         }
 
         .logo-container {
@@ -67,15 +84,85 @@
             border-radius: 50%;
         }
 
-        .container {
+        .boxed-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            width: 100%;
+            padding: 0 20px;
+        }
+
+        .order-process {
+            background-color: rgba(23, 42, 69, 0.8);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .order-process h2 {
+            color: #64ffda;
+            margin-bottom: 15px;
+        }
+
+        .order-process ol {
+            padding-left: 20px;
+        }
+
+        .order-process li {
+            margin-bottom: 10px;
+        }
+
+        .product-top-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
         }
 
         .product-header {
             text-align: center;
-            margin-bottom: 30px;
+            color: #64ffda;
+        }
+
+        .order-info {
+            background-color: rgba(23, 42, 69, 0.8);
+            padding: 25px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .order-info h2 {
+            color: #64ffda;
+            margin-bottom: 15px;
+        }
+
+        .requirements h3,
+        .delivery-info h3 {
+            color: #ccd6f6;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .requirements ul {
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .requirements li {
+            margin-bottom: 8px;
+            color: #ccd6f6;
+        }
+
+        .delivery-info p {
+            color: #ccd6f6;
+        }
+
+        @media (max-width: 768px) {
+            .product-top-section {
+                grid-template-columns: 1fr;
+            }
         }
 
         .product-image {
@@ -95,38 +182,49 @@
 
         .product-title {
             font-size: 2rem;
-            color: #2d3436;
+            color: #64ffda;
             margin-bottom: 20px;
         }
 
         .input-fields {
             margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
+            padding: 25px;
+            background-color: rgba(23, 42, 69, 0.8);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .input-fields h2 {
             margin-bottom: 15px;
-            color: #2d3436;
+            color: #64ffda;
         }
 
         .input-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .input-group label {
             display: block;
-            margin-bottom: 5px;
-            color: #2d3436;
+            margin-bottom: 8px;
+            color: #ccd6f6;
+            font-size: 0.95rem;
         }
 
         .input-group input {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            padding: 12px;
+            background-color: rgba(13, 25, 45, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
             font-size: 1rem;
+            color: #ccd6f6;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #64ffda;
         }
 
         .items-list {
@@ -136,29 +234,32 @@
         }
 
         .item-card {
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 15px;
+            background-color: rgba(23, 42, 69, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
             text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.3s ease;
             cursor: pointer;
+            backdrop-filter: blur(10px);
         }
 
         .item-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            background-color: rgba(29, 53, 87, 0.9);
         }
 
         .item-name {
             font-size: 1.1rem;
-            color: #2d3436;
-            margin-bottom: 10px;
+            color: #fff;
+            margin-bottom: 12px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         }
 
         .item-price {
             font-size: 1.2rem;
-            color: #4CAF50;
+            color: #64ffda;
             font-weight: bold;
         }
 
@@ -197,30 +298,36 @@
 
         .back-btn {
             display: inline-block;
-            background-color: #2d3436;
-            color: white;
-            padding: 10px 20px;
+            background-color: transparent;
+            color: #64ffda;
+            padding: 12px 24px;
             text-decoration: none;
-            border-radius: 4px;
-            margin-bottom: 20px;
-            transition: background-color 0.3s ease;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+            border: 1px solid #64ffda;
+            font-weight: 500;
         }
 
         .back-btn:hover {
-            background-color: #1e2628;
+            background-color: rgba(100, 255, 218, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(100, 255, 218, 0.2);
         }
 
         .cart-panel {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            padding: 20px;
+            background-color: rgba(23, 42, 69, 0.9);
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
+            padding: 25px;
             min-width: 300px;
             max-width: 400px;
             z-index: 1000;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .cart-header {
@@ -229,12 +336,12 @@
             align-items: center;
             margin-bottom: 15px;
             padding-bottom: 10px;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .cart-title {
             font-size: 1.2rem;
-            color: #2d3436;
+            color: #64ffda;
             font-weight: bold;
         }
 
@@ -248,8 +355,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .cart-item-info {
@@ -258,13 +365,13 @@
 
         .cart-item-name {
             font-size: 1rem;
-            color: #2d3436;
+            color: #ccd6f6;
             margin-bottom: 5px;
         }
 
         .cart-item-price {
             font-size: 0.9rem;
-            color: #4CAF50;
+            color: #64ffda;
         }
 
         .cart-item-controls {
@@ -275,9 +382,9 @@
         }
 
         .cart-quantity-btn {
-            background-color: #2d3436;
-            color: white;
-            border: none;
+            background-color: transparent;
+            color: #64ffda;
+            border: 1px solid #64ffda;
             border-radius: 4px;
             width: 24px;
             height: 24px;
@@ -286,50 +393,54 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.3s ease;
         }
 
         .cart-quantity-btn:hover {
-            background-color: #1e2628;
+            background-color: rgba(100, 255, 218, 0.1);
         }
 
         .cart-quantity-display {
             font-size: 1rem;
-            color: #2d3436;
+            color: #ccd6f6;
             min-width: 30px;
             text-align: center;
         }
 
         .cart-total {
             font-size: 1.2rem;
-            color: #2d3436;
+            color: #64ffda;
             font-weight: bold;
             text-align: right;
             margin-top: 15px;
             padding-top: 15px;
-            border-top: 2px solid #ddd;
+            border-top: 2px solid rgba(255, 255, 255, 0.1);
         }
 
         .buy-now-btn {
             display: block;
             width: 100%;
             padding: 15px;
-            background-color: #4CAF50;
-            color: white;
+            background-color: #64ffda;
+            color: #0a192f;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             font-size: 1.1rem;
             font-weight: bold;
             cursor: pointer;
             margin-top: 15px;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         .buy-now-btn:hover:not(:disabled) {
-            background-color: #45a049;
+            background-color: #4cd8b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(100, 255, 218, 0.3);
         }
 
         .buy-now-btn:disabled {
-            background-color: #cccccc;
+            background-color: rgba(204, 204, 204, 0.2);
+            color: #8892b0;
             cursor: not-allowed;
         }
 
@@ -383,14 +494,30 @@
         </a>
     </header>
 
-    <div class="container">
+    <div class="boxed-container">
         <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Games</a>
         
-        <div class="product-header">
-            <div class="product-image">
-                <img id="product-img" src="" alt="Product Image">
+        <div class="product-top-section">
+            <div class="product-header">
+                <div class="product-image">
+                    <img id="product-img" src="" alt="Product Image">
+                </div>
+                <h1 class="product-title" id="product-title"></h1>
             </div>
-            <h1 class="product-title" id="product-title"></h1>
+            
+            <div class="order-info">
+                <div class="order-process">
+                    <h2>Order Information</h2>
+                    <div class="requirements">
+                        <h3>You'll need to provide:</h3>
+                        <ul id="game-requirements"></ul>
+                    </div>
+                    <div class="delivery-info">
+                        <h3>After payment:</h3>
+                        <p>Your <span id="product-name-delivery"></span> will be delivered instantly to your account</p>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="input-fields" id="input-fields">
@@ -440,6 +567,21 @@
                     // Set product image and title
                     document.getElementById('product-img').src = `assets/games/webp/${productTitle.replace(/ /g, '_')}.webp`;
                     document.getElementById('product-title').textContent = product.title;
+                    document.getElementById('product-name-delivery').textContent = product.title;
+
+                    // Populate requirements list
+                    const requirementsList = document.getElementById('game-requirements');
+                    if (product.input_fields && product.input_fields.length > 0) {
+                        product.input_fields.forEach(field => {
+                            const fieldName = field.name.trim().replace(/[\[\]]/g, '').trim();
+                            const labelText = field.front_name || fieldName.split('_')
+                                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                                .join(' ');
+                            const li = document.createElement('li');
+                            li.textContent = labelText;
+                            requirementsList.appendChild(li);
+                        });
+                    }
 
                     // Add input fields
                     if (product.input_fields && product.input_fields.length > 0) {
@@ -450,13 +592,10 @@
                             
                             if (!labelText) {
                                 // Special case for MLBB User ID
-                                if (fieldName.includes('mlbb_user_id')) {
-                                    labelText = 'MLBB User ID';
-                                } else {
                                     labelText = fieldName.split('_')
                                         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
                                         .join(' ');
-                                }
+                            
                             }
                             return `
                                 <div class="input-group">

@@ -391,19 +391,19 @@
         "input_fields": [
             {
                 "type": "text",
-                "name": "ppom[fields][mlbb_user_id]"
+                "name": " [mlbb_user_id]"
             },
             {
                 "type": "text",
-                "name": "ppom[fields][mlbb_server_id]"
+                "name": " [mlbb_server_id]"
             },
             {
                 "type": "radio",
-                "name": "ppom[fields][check_ign_radio]"
+                "name": " [check_ign_radio]"
             },
             {
                 "type": "hidden",
-                "name": "ppom[fields][mlbb_ign]"
+                "name": " [mlbb_ign]"
             }
         ]
     },
@@ -502,11 +502,11 @@
         "input_fields": [
             {
                 "type": "text",
-                "name": "ppom[fields][user_id]"
+                "name": " [user_id]"
             },
             {
                 "type": "text",
-                "name": "ppom[fields][user_name]"
+                "name": " [user_name]"
             }
         ]
     },
@@ -565,7 +565,7 @@
         "input_fields": [
             {
                 "type": "text",
-                "name": "ppom[fields][riot_username]"
+                "name": " [riot_username]"
             }
         ]
     },
@@ -696,11 +696,11 @@
         "input_fields": [
             {
                 "type": "text",
-                "name": "ppom[fields][user_id]"
+                "name": " [user_id]"
             },
             {
                 "type": "text",
-                "name": "ppom[fields][user_name]"
+                "name": " [user_name]"
             }
         ]
     },
@@ -767,11 +767,11 @@
         "input_fields": [
             {
                 "type": "text",
-                "name": "ppom[fields][user_id]"
+                "name": " [user_id]"
             },
             {
                 "type": "text",
-                "name": "ppom[fields][ign]"
+                "name": " [ign]"
             }
         ]
     },
@@ -918,19 +918,19 @@
         "input_fields": [
             {
                 "type": "text",
-                "name": "ppom[fields][mlbb_user_id]"
+                "name": " [mlbb_user_id]"
             },
             {
                 "type": "text",
-                "name": "ppom[fields][mlbb_server_id]"
+                "name": " [mlbb_server_id]"
             },
             {
                 "type": "radio",
-                "name": "ppom[fields][check_ign_radio]"
+                "name": " [check_ign_radio]"
             },
             {
                 "type": "hidden",
-                "name": "ppom[fields][mlbb_ign]"
+                "name": " [mlbb_ign]"
             }
         ]
     },
@@ -1045,11 +1045,11 @@
         "input_fields": [
             {
                 "type": "text",
-                "name": "ppom[fields][user_id]"
+                "name": " [user_id]"
             },
             {
                 "type": "text",
-                "name": "ppom[fields][user_name]"
+                "name": " [user_name]"
             }
         ]
     },
@@ -1132,11 +1132,11 @@
         "input_fields": [
             {
                 "type": "text",
-                "name": "ppom[fields][user_id]"
+                "name": " [user_id]"
             },
             {
                 "type": "text",
-                "name": "ppom[fields][user_name]"
+                "name": " [user_name]"
             }
         ]
     },
@@ -1243,15 +1243,15 @@
         "input_fields": [
             {
                 "type": "text",
-                "name": "ppom[fields][user_id]"
+                "name": " [user_id]"
             },
             {
                 "type": "text",
-                "name": "ppom[fields][accountname]"
+                "name": " [accountname]"
             },
             {
                 "type": "text",
-                "name": "ppom[fields][account_server]"
+                "name": " [account_server]"
             }
         ]
     },
@@ -1398,19 +1398,19 @@
         "input_fields": [
             {
                 "type": "text",
-                "name": "ppom[fields][mlbb_user_id]"
+                "name": " [mlbb_user_id]"
             },
             {
                 "type": "text",
-                "name": "ppom[fields][mlbb_server_id]"
+                "name": " [mlbb_server_id]"
             },
             {
                 "type": "radio",
-                "name": "ppom[fields][check_ign_radio]"
+                "name": " [check_ign_radio]"
             },
             {
                 "type": "hidden",
-                "name": "ppom[fields][mlbb_ign]"
+                "name": " [mlbb_ign]"
             }
         ]
     },
@@ -1469,7 +1469,7 @@
         "input_fields": [
             {
                 "type": "text",
-                "name": "ppom[fields][riot_username]"
+                "name": " [riot_username]"
             }
         ]
     },
@@ -1536,11 +1536,11 @@
         "input_fields": [
             {
                 "type": "text",
-                "name": "ppom[fields][user_id]"
+                "name": " [user_id]"
             },
             {
                 "type": "text",
-                "name": "ppom[fields][ign]"
+                "name": " [ign]"
             }
         ]
     },
@@ -1599,7 +1599,7 @@
         "input_fields": [
             {
                 "type": "text",
-                "name": "ppom[fields][riot_username]"
+                "name": " [riot_username]"
             }
         ]
     },
@@ -1682,7 +1682,7 @@
         "input_fields": [
             {
                 "type": "text",
-                "name": "ppom[fields][user_id]"
+                "name": " [user_id]"
             }
         ]
     },
@@ -1741,11 +1741,11 @@
         "input_fields": [
             {
                 "type": "text",
-                "name": "ppom[fields][user_id]"
+                "name": " [user_id]"
             },
             {
                 "type": "text",
-                "name": "ppom[fields][user_name]"
+                "name": " [user_name]"
             }
         ]
     },
@@ -1868,11 +1868,11 @@
         "input_fields": [
             {
                 "type": "text",
-                "name": "ppom[fields][user_id]"
+                "name": " [user_id]"
             },
             {
                 "type": "text",
-                "name": "ppom[fields][user_name]"
+                "name": " [user_name]"
             }
         ]
     },
@@ -1955,7 +1955,7 @@
         "input_fields": [
             {
                 "type": "text",
-                "name": "ppom[fields][receivers_email_or_whatsapp]"
+                "name": " [receivers_email_or_whatsapp]"
             }
         ]
     },
@@ -2006,7 +2006,7 @@
         "input_fields": [
             {
                 "type": "text",
-                "name": "ppom[fields][receivers_email_or_whatsapp]"
+                "name": " [receivers_email_or_whatsapp]"
             }
         ]
     },
@@ -2065,7 +2065,7 @@
         "input_fields": [
             {
                 "type": "text",
-                "name": "ppom[fields][receivers_email_or_whatsapp]"
+                "name": " [receivers_email_or_whatsapp]"
             }
         ]
     },
@@ -2116,7 +2116,7 @@
         "input_fields": [
             {
                 "type": "text",
-                "name": "ppom[fields][receivers_email_or_whatsapp]"
+                "name": " [receivers_email_or_whatsapp]"
             }
         ]
     },
@@ -2215,7 +2215,7 @@
         "input_fields": [
             {
                 "type": "text",
-                "name": "ppom[fields][receivers_email_or_whatsapp]"
+                "name": " [receivers_email_or_whatsapp]"
             }
         ]
     },
@@ -2274,7 +2274,7 @@
         "input_fields": [
             {
                 "type": "text",
-                "name": "ppom[fields][receivers_email_or_whatsapp]"
+                "name": " [receivers_email_or_whatsapp]"
             }
         ]
     },
@@ -2373,11 +2373,11 @@
         "input_fields": [
             {
                 "type": "text",
-                "name": "ppom[fields][email]"
+                "name": " [email]"
             },
             {
                 "type": "text",
-                "name": "ppom[fields][password]"
+                "name": " [password]"
             }
         ]
     }
