@@ -1,7 +1,12 @@
-const botToken = '8168860159:AAH0_8SZtmxCSwnoogOD13kcRCZrvX-5A5o';
+const botToken = process.env.TELEGRAM_BOT_TOKEN;
 const chatId = '582783091'; // Replace with your chat ID
 
 function sendOrderToBot() {
+    if (!botToken) {
+        alert('Telegram bot token is not defined. Please set the TELEGRAM_BOT_TOKEN environment variable.');
+        return;
+    }
+
     const userInfo = JSON.parse(localStorage.getItem('userInfo')) || {};
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
 
