@@ -12,6 +12,9 @@ const sendMoneyDetailsArea = document.getElementById('send-money-details-area');
 const selectedSendMoneyNumberEl = document.getElementById('selected-send-money-number');
 const sendMoneyTotalEl = document.getElementById('send-money-total');
 const copyBtns = document.querySelectorAll('.copy-btn');
+// Modal elements
+const paymentModal = document.getElementById('payment-modal');
+const paymentStatusMessage = document.getElementById('payment-status-message');
 
 // Variable to store the selected Send Money sub-method
 let selectedSendMoneySubMethod = null;
@@ -240,6 +243,167 @@ function handlePaymentMethodChange() {
     if(bankRefInput) bankRefInput.required = (selectedOption && selectedOption.value === 'Bank Transfer');
 }
 
+// Show payment modal
+function showPaymentModal(message) {
+    if (paymentStatusMessage) {
+        paymentStatusMessage.textContent = message || 'Processing your payment...';
+    }
+    if (paymentModal) {
+        paymentModal.style.display = 'block';
+    }
+}
+
+// Hide payment modal
+function hidePaymentModal() {
+    if (paymentModal) {
+        paymentModal.style.display = 'none';
+    }
+}
+
+// Handle bKash payment
+async function handleBkashPayment(orderDetails) {
+    try {
+        showPaymentModal('Initiating bKash payment...');
+        
+        // Calculate total amount from cart
+        const totalAmount = cart.reduce((sum, item) => {
+            const price = parseFloat(item.item_price.replace('৳', '').replace(',', ''));
+            return sum + (price * item.quantity);
+        }, 0);
+        
+        // Add totalAmount to orderDetails
+        orderDetails.totalAmount = totalAmount;
+        
+        // Normalize payment method to 'bKash' for backend compatibility
+        orderDetails.paymentMethod = 'bKash';
+
+        // Generate a unique invoice number
+        const invoiceNumber = 'INV-' + Date.now() + '-' + Math.floor(Math.random() * 1000);
+        orderDetails.invoiceNumber = invoiceNumber;
+        
+        // Store original port for return handling
+        localStorage.setItem('original_port', window.location.port);
+
+        // Always use port 3000 for API calls
+        const apiPort = '3000';
+        const apiUrl = `http://localhost:${apiPort}/api/bkash/create-payment`;
+
+        // Send request to backend to create bKash payment
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(orderDetails)
+        });
+
+        const data = await response.json();
+        
+        if (data.success && data.bkashURL) {
+            // Store the payment ID in localStorage for when the user returns from bKash
+            if (data.paymentID) {
+                localStorage.setItem('bkash_payment_id', data.paymentID);
+                localStorage.setItem('bkash_payment_time', new Date().toISOString());
+            }
+            
+            // Update modal message
+            showPaymentModal('Redirecting to bKash payment page...');
+            
+            // Redirect to bKash payment page
+            window.location.href = data.bkashURL;
+        } else {
+            hidePaymentModal();
+            alert('Failed to initiate bKash payment: ' + (data.message || 'Unknown error'));
+        }
+    } catch (error) {
+        console.error('Error initiating bKash payment:', error);
+        hidePaymentModal();
+        alert('Failed to connect to the payment server. Please try again.');
+    }
+}
+
+// Check payment status by polling
+async function checkPaymentStatus(paymentID, attempts = 0) {
+    if (attempts > 10) {  // Limit number of attempts
+        hidePaymentModal();
+        alert('Payment verification is taking longer than expected. Please check your email for confirmation.');
+        return;
+    }
+    
+    try {
+        showPaymentModal('Executing bKash payment...');
+        
+        // Always use port 3000 for API calls
+        const apiPort = '3000';
+        const apiUrl = `http://localhost:${apiPort}/api/bkash/execute-payment`;
+        
+        // Execute the payment by calling the backend
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ paymentID: paymentID })
+        });
+        
+        const data = await response.json();
+        console.log('Payment execution response:', data);
+        
+        if (response.ok) {
+            if (data.success) {
+                // Payment successful
+                showPaymentModal('Payment completed! Processing your order...');
+                
+                // Clear cart and local storage
+                localStorage.removeItem('cart');
+                localStorage.removeItem('userInfo');
+                localStorage.removeItem('bkash_payment_id');
+                localStorage.removeItem('bkash_payment_time');
+                
+                setTimeout(() => {
+                    hidePaymentModal();
+                    // Redirect to success page with trxID
+                    window.location.href = '/payment-success.html?paymentID=' + paymentID + 
+                        (data.trxID ? '&trxID=' + data.trxID : '');
+                }, 2000);
+            } else {
+                // Payment not successful but response was ok
+                if (data.transactionStatus === 'Initiated' && attempts < 3) {
+                    // If status is still "Initiated", try again after a delay
+                    showPaymentModal('Payment processing... Please wait...');
+                    setTimeout(() => checkPaymentStatus(paymentID, attempts + 1), 5000);
+                } else {
+                    // Other failed status
+                    hidePaymentModal();
+                    alert('Payment was not completed. Status: ' + (data.transactionStatus || 'Unknown'));
+                    window.location.href = '/payment-failed.html?status=' + 
+                        (data.transactionStatus || 'Failed') + '&paymentID=' + paymentID;
+                }
+            }
+        } else {
+            // Server error or problem with the request
+            if (attempts < 3) {
+                // Try again a few times
+                showPaymentModal('Checking payment status...');
+                setTimeout(() => checkPaymentStatus(paymentID, attempts + 1), 3000);
+            } else {
+                hidePaymentModal();
+                alert('Failed to verify payment: ' + (data.message || 'Unknown error'));
+            }
+        }
+    } catch (error) {
+        console.error('Error executing bKash payment:', error);
+        if (attempts < 3) {
+            // Try again a few times in case of network error
+            showPaymentModal('Retrying payment verification...');
+            setTimeout(() => checkPaymentStatus(paymentID, attempts + 1), 3000);
+        } else {
+            hidePaymentModal();
+            alert('Failed to connect to the payment server. Please contact support with your order details.');
+        }
+    }
+}
+
 // Initialize the page
 document.addEventListener('DOMContentLoaded', function() {
     // Load cart from localStorage
@@ -254,6 +418,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const userNameInput = document.getElementById('user-name');
     const userEmailInput = document.getElementById('user-email');
     const userPhoneInput = document.getElementById('user-phone');
+    const totalAmountElement = document.getElementById('total-amount');
     // (Payment method elements already grabbed globally)
 
     // --- Add Event Listeners --- 
@@ -285,32 +450,105 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initial call to set correct instruction visibility
     handlePaymentMethodChange(); 
 
+    // Check for payment status in URL params (for when returning from bKash)
+    const urlParams = new URLSearchParams(window.location.search);
+    const paymentID = urlParams.get('paymentID');
+    const status = urlParams.get('status');
+    
+    if (paymentID && status === 'success') {
+        showPaymentModal('Verifying payment...');
+        checkPaymentStatus(paymentID);
+    } else if (paymentID) {
+        // Just show the payment status page without executing
+        window.location.href = '/payment-success.html?paymentID=' + paymentID;
+    } else {
+        // Check if there's a recent payment ID stored in localStorage (backup check)
+        const storedPaymentID = localStorage.getItem('bkash_payment_id');
+        const paymentTimeStr = localStorage.getItem('bkash_payment_time');
+        
+        if (storedPaymentID && paymentTimeStr) {
+            // Only check if the payment attempt was recent (within the last 10 minutes)
+            const paymentTime = new Date(paymentTimeStr);
+            const currentTime = new Date();
+            const minutesSincePayment = (currentTime - paymentTime) / (1000 * 60);
+            
+            if (minutesSincePayment < 10) {
+                console.log(`Found recent bKash payment attempt (${minutesSincePayment.toFixed(1)} minutes ago). Checking status...`);
+                showPaymentModal('Checking recent payment status...');
+                checkPaymentStatus(storedPaymentID);
+            } else {
+                // Clear old payment data
+                localStorage.removeItem('bkash_payment_id');
+                localStorage.removeItem('bkash_payment_time');
+            }
+        }
+    }
+
     if (placeOrderBtn) {
         placeOrderBtn.addEventListener('click', () => {
             const name = userNameInput.value.trim();
             const email = userEmailInput.value.trim();
             const phone = userPhoneInput.value.trim();
+            const currentCart = JSON.parse(localStorage.getItem('cart')) || [];
+            const currentTotal = totalAmountElement ? totalAmountElement.textContent : 'N/A';
             const userInfo = JSON.parse(localStorage.getItem('userInfo')) || {};
-            const currentCart = JSON.parse(localStorage.getItem('cart')) || []; 
-            const totalAmountElement = document.getElementById('total-amount');
-            const currentTotal = totalAmountElement.textContent;
-            
-            // --- Payment Method Validation (Updated block) ---
+
             const selectedPaymentMethodRadio = document.querySelector('input[name="paymentMethod"]:checked');
+            
             if (!selectedPaymentMethodRadio) {
                 alert('Please select a payment method.');
-                document.querySelector('.payment-method-selection').scrollIntoView({ behavior: 'smooth' });
+                return;
+            }
+            const paymentMethodValue = selectedPaymentMethodRadio.value;
+            let paymentDetails = {};
+            
+            if (currentCart.length === 0) {
+                alert('Your cart is empty. Please add items before placing an order.');
                 return;
             }
             
-            const paymentMethodValue = selectedPaymentMethodRadio.value; // e.g., "Send Money", "bKash Gateway"
-            let paymentDetails = {};
+            // --- User Details Validation ---
+            if (!name || !email || !phone) {
+                alert('Please fill in all your details (Name, Email, Phone).');
+                if (!name) userNameInput.focus();
+                else if (!email) userEmailInput.focus();
+                else if (!phone) userPhoneInput.focus();
+                return;
+            }
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                alert('Please enter a valid email address.');
+                userEmailInput.focus();
+                return;
+            }
+            const phonePattern = /^[+]?[0-9\s\-()]+$/; // Allow more chars in phone
+            if (!phonePattern.test(phone)) {
+                alert('Please enter a valid phone number.');
+                userPhoneInput.focus();
+                return;
+            }
+            // --- End Validations ---
 
+            // Construct order details
+            const orderDetails = {
+                customerInfo: { name: name, email: email, phone: phone },
+                paymentMethod: paymentMethodValue, 
+                gameSpecificInfo: userInfo,
+                items: currentCart,
+                total: currentTotal 
+            };
+
+            // For bKash payment
+            if (paymentMethodValue === 'bKash Gateway') {
+                handleBkashPayment(orderDetails);
+                return;
+            }
+
+            // --- Only For Manual Payments --- 
             // Validate Send Money specific fields
             if (paymentMethodValue === 'Send Money') { 
-                if (!selectedSendMoneySubMethod) { // Check if sub-method (bKash/Nagad/Rocket) was chosen
+                if (!selectedSendMoneySubMethod) {
                     alert('Please select bKash, Nagad, or Rocket within the Send Money option.');
-                    // Optional: focus or highlight the sub-option buttons
                     return;
                 }
                 const trxId = trxIdInput.value.trim();
@@ -319,8 +557,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     trxIdInput.focus();
                     return;
                 }
-                // Include which Send Money sub-method was used
-                paymentDetails.sendMoneyType = selectedSendMoneySubMethod; 
+                paymentDetails.sendMoneyType = selectedSendMoneySubMethod;
                 paymentDetails.transactionId = trxId;
             }
             // Validate Bank Ref if Bank Transfer is selected
@@ -333,56 +570,15 @@ document.addEventListener('DOMContentLoaded', function() {
                  }
                  paymentDetails.bankReference = bankRef;
             }
-            // --- End Payment Method Validation ---
-
-            if (currentCart.length === 0) {
-                 alert('Your cart is empty. Please add items before placing an order.');
-                 return;
-            }
-
-            // --- User Details Validation (Existing) ---
-            if (!name || !email || !phone) {
-                alert('Please fill in all your details (Name, Email, Phone).');
-                // Optional: focus the first empty field
-                if (!name) userNameInput.focus();
-                else if (!email) userEmailInput.focus();
-                else if (!phone) userPhoneInput.focus();
-                return;
-            }
-            // Basic email validation
-            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailPattern.test(email)) {
-                alert('Please enter a valid email address.');
-                userEmailInput.focus();
-                return;
-            }
-            // Basic phone validation (simple check for digits, allows optional + and spaces)
-            const phonePattern = /^[+]?[0-9\s]+$/;
-            if (!phonePattern.test(phone)) {
-                alert('Please enter a valid phone number.');
-                userPhoneInput.focus();
-                return;
-            }
-            // --- End User Details Validation ---
-
-            const orderDetails = {
-                customerInfo: {
-                    name: name,
-                    email: email,
-                    phone: phone
-                },
-                paymentMethod: paymentMethodValue, // Main method: "Send Money", "bKash Gateway", etc.
-                paymentDetails: paymentDetails, // Includes sendMoneyType + transactionId OR bankReference
-                gameSpecificInfo: userInfo,
-                items: currentCart,
-                total: currentTotal
-            };
-
-            console.log('--- Order Details ---');
-            console.log(JSON.stringify(orderDetails, null, 2));
             
-            // --- Send Order Details to Backend API --- (Replaces direct Telegram call)
-            fetch('http://localhost:3000/api/send-order', { // Use your backend server URL/port
+            // Add payment details to order for manual methods
+            orderDetails.paymentDetails = paymentDetails;
+
+            console.log('--- Manual Order Details ---');
+            console.log(JSON.stringify(orderDetails, null, 2));
+
+            // --- Send Order Details to Backend API ---
+            fetch('http://localhost:3000/api/send-order', { 
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -391,64 +587,68 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(response => response.json())
             .then(data => {
-                console.log('Backend response:', data);
+                console.log('Backend response (manual order):', data);
                 if (data.success) {
-                    // Simulate order placement success (alert)
-                    alert('Order placed successfully! Thank you for your purchase.');
-
-                    // Clear cart and user info from storage
+                    alert('Order submitted successfully! We will process it after payment confirmation.');
+                    // Clear cart, fields, update UI
                     localStorage.removeItem('cart');
                     localStorage.removeItem('userInfo');
                     cart = [];
-
-                    // Update display to show empty cart and confirmation
-                    updateDisplay(); 
-                    const gameSectionsContainer = document.getElementById('game-sections');
-                    if (gameSectionsContainer) {
-                         gameSectionsContainer.innerHTML = '<p style="color: green; font-weight: bold;">Order placed successfully! Your cart is now empty.</p>' 
-                                                 + gameSectionsContainer.innerHTML; // Prepend success message
-                    }
-
-                    // Disable buttons and clear/hide forms after order
-                    placeOrderBtn.disabled = true;
-                    if(clearCartBtn) clearCartBtn.disabled = true;
-                    
-                    // Clear User Details Form
+                    updateDisplay();
                     if(userNameInput) userNameInput.value = '';
                     if(userEmailInput) userEmailInput.value = '';
                     if(userPhoneInput) userPhoneInput.value = '';
-                    // Clear Payment Method Form elements
                     paymentOptions.forEach(option => option.checked = false);
                     if(trxIdInput) trxIdInput.value = '';
                     if(bankRefInput) bankRefInput.value = '';
                     sendMoneySubOptionBtns.forEach(btn => btn.classList.remove('selected'));
-                    handlePaymentMethodChange(); // Hide all instructions again
-
-                    // Hide forms
+                    handlePaymentMethodChange(); 
                     const userDetailsForm = document.querySelector('.user-details-form');
                     if (userDetailsForm) userDetailsForm.style.display = 'none';
                     const paymentForm = document.querySelector('.payment-method-selection');
                     if (paymentForm) paymentForm.style.display = 'none';
+                    if(placeOrderBtn) placeOrderBtn.disabled = true;
+                    if(clearCartBtn) clearCartBtn.disabled = true;
+                    const gameSectionsContainer = document.getElementById('game-sections');
+                    if(gameSectionsContainer){
+                        gameSectionsContainer.innerHTML = '<p style="color: green; font-weight: bold;">Order Submitted! Processing after payment confirmation.</p>';
+                    }
                 } else {
-                     // Handle potential errors from the backend
-                     alert('There was an issue placing your order. Please try again later. Error: ' + (data.message || 'Unknown error'));
-                     placeOrderBtn.disabled = false; // Re-enable button on failure
+                    alert('There was an issue submitting your order. Please try again. Error: ' + (data.message || 'Unknown error'));
                 }
             })
             .catch((error) => {
-                console.error('Error sending order to backend:', error);
-                alert('Failed to connect to the server to place your order. Please check your connection and try again.');
-                placeOrderBtn.disabled = false; // Re-enable button on network failure
+                console.error('Error sending manual order to backend:', error);
+                alert('Failed to connect to the server to submit your order. Please check your connection and try again.');
             });
+            
         });
     }
 
     if (clearCartBtn) {
         clearCartBtn.addEventListener('click', () => {
              if (confirm('Are you sure you want to clear your cart?')) {
-                clearCart(); // Use the existing clearCart function
-                alert('Cart cleared.');
+                  localStorage.removeItem('cart');
+                  localStorage.removeItem('userInfo'); // Also clear user info if clearing cart
+                  cart = [];
+                  userInfo = {};
+                  updateDisplay();
+                   // Optionally clear forms too
+                   if (userNameInput) userNameInput.value = '';
+                   if (userEmailInput) userEmailInput.value = '';
+                   if (userPhoneInput) userPhoneInput.value = '';
+                   paymentOptions.forEach(option => option.checked = false);
+                   if (trxIdInput) trxIdInput.value = '';
+                   if (bankRefInput) bankRefInput.value = '';
+                   sendMoneySubOptionBtns.forEach(btn => btn.classList.remove('selected'));
+                   handlePaymentMethodChange();
+                   // Ensure forms are visible again if they were hidden
+                   const userDetailsForm = document.querySelector('.user-details-form');
+                   if (userDetailsForm) userDetailsForm.style.display = ''; 
+                   const paymentForm = document.querySelector('.payment-method-selection');
+                   if (paymentForm) paymentForm.style.display = '';
+                   if(placeOrderBtn) placeOrderBtn.disabled = false;
              }
-        });
-    }
+         });
+     }
 });

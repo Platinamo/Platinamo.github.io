@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Success - Platinamo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        .success-container {
+            max-width: 700px;
+            margin: 60px auto;
+            padding: 40px;
+            background-color: var(--light-dark-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+        
+        .success-icon {
+            font-size: 5rem;
+            color: #4BB543;
+            margin-bottom: 20px;
+        }
+        
+        .success-title {
+            font-size: 2rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+        
+        .success-message {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            margin-bottom: 30px;
+        }
+        
+        .order-id {
+            padding: 10px;
+            background-color: rgba(100, 255, 218, 0.1);
+            border-radius: 4px;
+            margin: 20px 0;
+            font-family: monospace;
+            font-size: 1.2rem;
+        }
+        
+        .back-home-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: var(--accent-color);
+            color: var(--dark-bg);
+            border-radius: 4px;
+            font-weight: bold;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-home-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(100, 255, 218, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--accent-color);
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Processing message */
+        .processing-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.85);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            color: white;
+        }
+        
+        .processing-message {
+            margin-top: 20px;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="assets/logo.webp" alt="Platinam Logo">
+            <div class="title-container">
+                <h1>Platinamo</h1>
+                <p>Your Trusted Gaming Shop</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="success-container">
+            <i class="fas fa-check-circle success-icon"></i>
+            <h1 class="success-title">Payment Successful!</h1>
+            <p class="success-message">Your order has been received and is being processed.</p>
+            
+            <div class="order-details">
+                <p>We've sent a notification to our team and they will fulfill your order shortly.</p>
+                <div id="order-id" class="order-id">Processing your order details...</div>
+                <div id="transaction-id" class="order-id" style="display: none;"></div>
+            </div>
+            
+            <a href="index.html" class="back-home-btn">Back to Home</a>
+        </div>
+    </div>
+    
+    <!-- Processing overlay -->
+    <div id="processing-overlay" class="processing-overlay" style="display: none;">
+        <div class="loading-spinner"></div>
+        <div id="processing-message" class="processing-message">Completing your payment...</div>
+    </div>
+
+    <script>
+        // Function to show the processing overlay
+        function showProcessing(message) {
+            const overlay = document.getElementById('processing-overlay');
+            const messageEl = document.getElementById('processing-message');
+            
+            if (messageEl) {
+                messageEl.textContent = message || 'Processing...';
+            }
+            
+            if (overlay) {
+                overlay.style.display = 'flex';
+            }
+        }
+        
+        // Function to hide the processing overlay
+        function hideProcessing() {
+            const overlay = document.getElementById('processing-overlay');
+            if (overlay) {
+                overlay.style.display = 'none';
+            }
+        }
+        
+        // Function to execute bKash payment
+        async function executeBkashPayment(paymentID) {
+            try {
+                showProcessing('Completing your payment...');
+                
+                // Always use port 3000 for API
+                const apiPort = '3000';
+                const apiUrl = `http://localhost:${apiPort}/api/bkash/execute-payment`;
+                
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ paymentID: paymentID })
+                });
+                
+                const data = await response.json();
+                console.log('Payment execution response:', data);
+                
+                if (data.success) {
+                    // Update the transaction ID
+                    const trxIdElement = document.getElementById('transaction-id');
+                    if (trxIdElement && data.trxID) {
+                        trxIdElement.textContent = `Transaction ID: ${data.trxID}`;
+                        trxIdElement.style.display = 'block';
+                        
+                        // Update URL with trxID without reloading the page
+                        const url = new URL(window.location.href);
+                        url.searchParams.set('trxID', data.trxID);
+                        window.history.replaceState({}, '', url);
+                    }
+                    
+                    // Clear cart data from localStorage if not already done
+                    localStorage.removeItem('cart');
+                    localStorage.removeItem('userInfo');
+                    localStorage.removeItem('bkash_payment_id');
+                    localStorage.removeItem('bkash_payment_time');
+                } else {
+                    console.warn('Payment not completed:', data.transactionStatus || 'Unknown status');
+                }
+                
+                hideProcessing();
+            } catch (error) {
+                console.error('Error executing payment:', error);
+                hideProcessing();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get the parameters from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const paymentID = urlParams.get('paymentID');
+            const trxID = urlParams.get('trxID');
+            const status = urlParams.get('status');
+            
+            // Display the payment ID
+            const orderIdElement = document.getElementById('order-id');
+            if (orderIdElement && paymentID) {
+                orderIdElement.textContent = `Payment Reference: ${paymentID}`;
+            }
+            
+            // Display transaction ID if available
+            const trxIdElement = document.getElementById('transaction-id');
+            if (trxIdElement && trxID) {
+                trxIdElement.textContent = `Transaction ID: ${trxID}`;
+                trxIdElement.style.display = 'block';
+            }
+            
+            // Check if we're on port 8000 while the API is on port 3000
+            const currentPort = window.location.port;
+            const apiPort = '3000';
+            
+            if (currentPort === '8000' && paymentID && status === 'success') {
+                // Redirect to the API port with the same parameters
+                const redirectUrl = `http://localhost:${apiPort}/api/bkash/callback?paymentID=${paymentID}&status=${status}&signature=${urlParams.get('signature') || ''}&apiVersion=${urlParams.get('apiVersion') || ''}`;
+                console.log('Redirecting to correct API port:', redirectUrl);
+                window.location.href = redirectUrl;
+                return;
+            }
+            
+            // If we have a paymentID and status=success but no trxID, execute the payment
+            if (paymentID && status === 'success' && !trxID) {
+                executeBkashPayment(paymentID);
+            }
+        });
+    </script>
+</body>
+</html> 

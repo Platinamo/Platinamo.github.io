@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Failed - Platinamo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        .failed-container {
+            max-width: 700px;
+            margin: 60px auto;
+            padding: 40px;
+            background-color: var(--light-dark-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+        
+        .failed-icon {
+            font-size: 5rem;
+            color: #E74C3C;
+            margin-bottom: 20px;
+        }
+        
+        .failed-title {
+            font-size: 2rem;
+            color: #E74C3C;
+            margin-bottom: 15px;
+        }
+        
+        .failed-message {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            margin-bottom: 30px;
+        }
+        
+        .reason-box {
+            padding: 15px;
+            background-color: rgba(231, 76, 60, 0.1);
+            border-radius: 4px;
+            margin: 20px 0;
+            color: var(--text-secondary);
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .try-again-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: var(--accent-color);
+            color: var(--dark-bg);
+            border-radius: 4px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .back-home-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+            border-radius: 4px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .try-again-btn:hover, .back-home-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="assets/logo.webp" alt="Platinam Logo">
+            <div class="title-container">
+                <h1>Platinamo</h1>
+                <p>Your Trusted Gaming Shop</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="failed-container">
+            <i class="fas fa-times-circle failed-icon"></i>
+            <h1 class="failed-title">Payment Failed</h1>
+            <p class="failed-message">We couldn't complete your payment.</p>
+            
+            <div class="failure-details">
+                <p>There was a problem processing your payment. Your order has not been placed.</p>
+                <div id="reason-box" class="reason-box">
+                    Checking what went wrong...
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <a href="payment.html" class="try-again-btn">Try Again</a>
+                <a href="index.html" class="back-home-btn">Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get the reason from URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const reason = urlParams.get('reason') || 'unknown-error';
+            
+            // Format the reason message
+            let reasonMessage = '';
+            switch(reason) {
+                case 'missing-payment-id':
+                    reasonMessage = 'Payment ID was missing from the transaction.';
+                    break;
+                case 'order-not-found':
+                    reasonMessage = 'We couldn\'t find your order details. Please try again.';
+                    break;
+                case 'Cancelled':
+                    reasonMessage = 'The payment was cancelled.';
+                    break;
+                case 'Failed':
+                    reasonMessage = 'The payment failed to process.';
+                    break;
+                case 'Initiated':
+                    reasonMessage = 'The payment was initiated but not completed.';
+                    break;
+                case 'server-error':
+                    reasonMessage = 'There was a server error while processing your payment.';
+                    break;
+                default:
+                    reasonMessage = 'An unknown error occurred. Please try again or contact support.';
+            }
+            
+            // Display the reason
+            const reasonBoxElement = document.getElementById('reason-box');
+            if (reasonBoxElement) {
+                reasonBoxElement.textContent = reasonMessage;
+            }
+        });
+    </script>
+</body>
+</html> 
